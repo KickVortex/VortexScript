@@ -10,7 +10,6 @@ local TweenService = game:GetService("TweenService")
 local Env = (getgenv and getgenv()) or _G
 if type(Env.VortexUnload) == "function" then pcall(Env.VortexUnload); Env.VortexUnload = nil end
 
----------------------------------------------------------------- LOCALE
 local Locale = {Current = "EN", Registry = {}, Listeners = {}, Strings = {EN = {}, UA = {}, RU = {}}}
 local function L(k, en, ua, ru) Locale.Strings.EN[k] = en; Locale.Strings.UA[k] = ua; Locale.Strings.RU[k] = ru end
 
@@ -19,7 +18,11 @@ L("APP_SUB","COMBAT HUB","БОЙОВИЙ ХАБ","БОЕВОЙ ХАБ")
 L("TAB_AIMBOT","AIMBOT","АЙМБОТ","АИМБОТ")
 L("TAB_VISUALS","VISUALS","ВІЗУАЛ","ВИЗУАЛ")
 L("TAB_MOVEMENT","MOVEMENT","РУХ","ДВИЖЕНИЕ")
-L("TAB_WORLD","WORLD","СВІТ","МИР")
+L("TAB_PRESETS","PRESETS","ПРЕСЕТИ","ПРЕСЕТЫ")
+L("TAB_RENDERING","RENDERING","РЕНДЕРИНГ","РЕНДЕРИНГ")
+L("TAB_CAMERA","CAMERA","КАМЕРА","КАМЕРА")
+L("TAB_WEATHER","WEATHER","ПОГОДА","ПОГОДА")
+L("TAB_CROSSHAIR","CROSSHAIR","ПРИЦІЛ","ПРИЦЕЛ")
 L("TAB_PROFILE","PROFILE","ПРОФІЛЬ","ПРОФИЛЬ")
 L("TAB_DEBUG","LOGS","ЛОГИ","ЛОГИ")
 L("TAB_BINDS","BINDS","КЛАВІШІ","КЛАВИШИ")
@@ -47,6 +50,7 @@ L("SEC_CONFIG","CONFIG","КОНФІГ","КОНФИГ")
 L("SEC_SCRIPT","SCRIPT","СКРИПТ","СКРИПТ")
 L("SEC_LANGUAGE","LANGUAGE","МОВА","ЯЗЫК")
 L("SEC_LOG","LOG REPORT","ЗВІТ ЛОГІВ","ОТЧЁТ ЛОГОВ")
+L("LBL_ERRORSTATUS","Error Status","Стан помилок","Статус ошибок")
 L("OPT_AIMBOT","Aimbot","Аймбот","Аимбот")
 L("OPT_HOLD_RMB","Hold Right Mouse","Утримувати ПКМ","Удерживать ПКМ")
 L("OPT_TEAMCHECK","Team Check","Перевірка команди","Проверка команды")
@@ -70,6 +74,8 @@ L("OPT_REACTDELAY","Reaction Delay","Затримка реакції","Заде�
 L("OPT_FIREINTERVAL","Fire Interval","Інтервал вогню","Интервал огня")
 L("OPT_HUMANIZE","Humanize Timing","Гуманізація таймінгу","Гуманизация тайминга")
 L("OPT_CLICKMODE","Click Mode","Режим кліку","Режим клика")
+L("OPT_IGNOREBOT","Ignore Bot","Ігнорувати ботів","Игнорировать ботов")
+L("BOT_LABEL","BOT","БОТ","БОТ")
 L("OPT_ESP","ESP","ESP","ESP")
 L("OPT_HIDETEAM","Hide Teammates","Приховати команду","Скрыть команду")
 L("OPT_BOXES","Boxes","Рамки","Рамки")
@@ -136,15 +142,29 @@ L("OPT_TIMEFLOW","Time Flow","Плин часу","Течение времени"
 L("OPT_FLOWSPEED","Flow Speed","Швидкість плину","Скорость течения")
 L("OPT_GLOW","Glow / Bloom","Світіння / Блум","Свечение / Блум")
 L("OPT_GLOWINT","Glow Intensity","Інтенсивність світіння","Интенсивность свечения")
+L("OPT_GLOWSIZE","Glow Size","Розмір світіння","Размер свечения")
 L("OPT_COLORGRADE","Color Grading","Кольорокорекція","Цветокоррекция")
 L("OPT_SATURATION","Saturation","Насиченість","Насыщенность")
+L("OPT_CONTRAST","Contrast","Контраст","Контраст")
+L("OPT_BRIGHTNESS","Brightness","Яскравість","Яркость")
 L("OPT_TINT","Tint","Відтінок","Оттенок")
 L("OPT_VISIONMODE","Vision Mode","Режим зору","Режим зрения")
 L("OPT_DOF","Depth Of Field","Глибина різкості","Глубина резкости")
 L("OPT_FOCUSDIST","Focus Distance","Дистанція фокусу","Дистанция фокуса")
 L("OPT_BLURAMOUNT","Blur Amount","Сила розмиття","Сила размытия")
+L("OPT_NEARBLUR","Near Blur","Розмиття зблизька","Размытие вблизи")
 L("OPT_FOCUSRADIUS","Focus Radius","Радіус фокусу","Радиус фокуса")
 L("OPT_SCREENBLUR","Screen Blur","Розмиття екрану","Размытие экрана")
+L("SEC_AMBIENT","AMBIENT LIGHT","ОТОЧЕННЯ","ОКРУЖЕНИЕ")
+L("OPT_AMBIENT","Ambient Override","Перекрити оточення","Переопределить окружение")
+L("OPT_AMBIENTCOLOR","Ambient Color","Колір оточення","Цвет окружения")
+L("OPT_AMBIENTINT","Ambient Intensity","Інтенсивність оточення","Интенсивность окружения")
+L("SEC_SKY","SKY","НЕБО","НЕБО")
+L("OPT_STARS","Stars","Зірки","Звёзды")
+L("OPT_STARCOUNT","Star Count","Кількість зірок","Количество звёзд")
+L("SEC_PARTICLES","PARTICLES","ЧАСТИНКИ","ЧАСТИЦЫ")
+L("OPT_ASH","Ash / Embers","Попіл / Іскри","Пепел / Искры")
+L("OPT_ASHINT","Ash Density","Густота попелу","Плотность пепла")
 L("OPT_BLURSIZE","Blur Size","Розмір розмиття","Размер размытия")
 L("OPT_VIGNETTE","Vignette","Віньєтка","Виньетка")
 L("OPT_VIGNETTEINT","Vignette Strength","Сила віньєтки","Сила виньетки")
@@ -159,6 +179,10 @@ L("OPT_DYNAMICGAP","Dynamic Gap","Динамічний проміжок","Дин
 L("OPT_REDONTARGET","Turn Red On Target","Червоний по цілі","Красный по цели")
 L("OPT_HITMARKER","Hit Marker","Маркер попадання","Маркер попадания")
 L("OPT_HITSOUND","Hit Sound","Звук попадання","Звук попадания")
+L("OPT_HITSTYLE","Hit Marker Style","Стиль маркера","Стиль маркера")
+L("OPT_HITEFFECT","Hit Effect","Ефект попадання","Эффект попадания")
+L("OPT_HITSIZE","Hit Marker Size","Розмір маркера","Размер маркера")
+L("OPT_HITTIME","Hit Marker Time","Час маркера","Время маркера")
 L("OPT_THEME","Theme","Тема","Тема")
 L("OPT_ACCENT","Accent","Акцент","Акцент")
 L("OPT_MENUSCALE","Menu Scale","Масштаб меню","Масштаб меню")
@@ -243,7 +267,6 @@ function Locale.SetLanguage(code, notify)
 	return true
 end
 
----------------------------------------------------------------- PLAYER / CLEANUP
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local Camera = Workspace.CurrentCamera
@@ -253,7 +276,6 @@ for _, name in ipairs({"VortexAuth", "VortexOverlay", "VortexMenu", "VortexTheme
 	if old then old:Destroy() end
 end
 
----------------------------------------------------------------- THEME
 local ThemeKeys = {"Background", "Secondary", "Row", "Border", "Text", "SubText", "Muted", "Accent"}
 local function Pal(...)
 	local a, t = {...}, {}
@@ -273,7 +295,8 @@ local AccentColors = {
 	Violet = Color3.fromRGB(150,110,255), Cyan = Color3.fromRGB(70,210,255), Rose = Color3.fromRGB(255,96,150),
 	Emerald = Color3.fromRGB(70,225,140), Amber = Color3.fromRGB(255,190,70), White = Color3.fromRGB(240,240,240),
 }
-local SkinThemes = {Classic = {"Obsidian", "Theme"}, Windows = {"Crimson", "Theme"}, Dock = {"Ocean", "Theme"}, Terminal = {"Mono", "Emerald"}}
+local SkinThemes = {Classic = {"Obsidian", "Theme"}, Windows = {"Crimson", "Theme"}, Dock = {"Ocean", "Theme"}, Terminal = {"Mono", "Emerald"},
+	Notch = {"Obsidian", "Cyan"}, HUDStrip = {"Crimson", "Rose"}, Radial = {"Ocean", "Theme"}}
 
 local Prefs = {Theme = "Obsidian", Accent = "Theme"}
 local Theme, Bound, Refreshers = {}, {}, {}
@@ -296,7 +319,6 @@ local function ApplyTheme()
 end
 ApplyTheme()
 
--- New(class, parent, props): a string prop value like "@Accent" on a *Color* property binds it to the live theme.
 local function New(class, parent, props)
 	local o = Instance.new(class)
 	for p, v in pairs(props or {}) do
@@ -331,8 +353,7 @@ local function GlowStroke(parent)
 	return spin
 end
 
----------------------------------------------------------------- AUTH
-local KeyConfig = {AllowedUsers = {["KickVortex777"] = "boom", ["735_45"] = "na"}}
+local KeyConfig = {AllowedUsers = {["KickVortex777"] = "boom", ["735_45"] = "na", ["vortex5649234"] = "good"}}
 local function Authorize(input)
 	local personal = KeyConfig.AllowedUsers[LocalPlayer.Name]
 	if personal == nil then return false, "This account is not authorized" end
@@ -340,7 +361,6 @@ local function Authorize(input)
 	return false, "Invalid key"
 end
 
----------------------------------------------------------------- CONFIG FILES
 local CONFIG_FOLDER = "VortexCheats"
 local function EnsureFolder()
 	return (pcall(function() if not isfolder(CONFIG_FOLDER) then makefolder(CONFIG_FOLDER) end end))
@@ -365,29 +385,52 @@ local function ListConfigs()
 	return names
 end
 
--- BuiltinConfigs: seeded once into VortexCheats/ on boot if the file does not already exist.
--- After that they are plain files -- SAVE TO FILE with name "rage" or "legit" overwrites them like any other config.
+local STATE_FOLDER = CONFIG_FOLDER .. "/state"
+local function EnsureStateFolder()
+	return (pcall(function()
+		if not isfolder(CONFIG_FOLDER) then makefolder(CONFIG_FOLDER) end
+		if not isfolder(STATE_FOLDER) then makefolder(STATE_FOLDER) end
+	end))
+end
+local function SaveSetting(name, value)
+	local safe = SanitizeFileName(name)
+	if not safe then return false end
+	if not EnsureStateFolder() then return false end
+	return (pcall(function() writefile(STATE_FOLDER .. "/" .. safe .. ".txt", tostring(value)) end))
+end
+local function LoadSetting(name, default)
+	local safe = SanitizeFileName(name)
+	if not safe then return default end
+	local path = STATE_FOLDER .. "/" .. safe .. ".txt"
+	local ok, content = pcall(function()
+		if not isfile(path) then error("missing") end
+		return readfile(path)
+	end)
+	if not ok then return default end
+	return content
+end
+
 local BuiltinConfigs = {
 	rage = {
-		AimbotEnabled = true, AimHold = false, AimTeamCheck = true, VisibleCheck = false, AimPart = "Head", AimSpeed = 45,
+		AimbotEnabled = true, AimHold = false, AimTeamCheck = true, AimIgnoreBots = false, VisibleCheck = false, AimPart = "Head", AimSpeed = 45,
 		FOVRadius = 260, MaxAimDistance = 2500, PredictionEnabled = true, PredictionTime = 0.16, ShowFOV = true, ShowTargetLine = true,
-		TriggerEnabled = true, TriggerTeamCheck = true, TriggerWallCheck = false, TriggerFOV = 12, TriggerHitbox = true, TriggerPart = "Any",
+		TriggerEnabled = true, TriggerTeamCheck = true, TriggerIgnoreBots = false, TriggerWallCheck = false, TriggerFOV = 12, TriggerHitbox = true, TriggerPart = "Any",
 		TriggerMaxDistance = 1500, TriggerDelay = 0, TriggerInterval = 0.03, TriggerHumanize = false, TriggerOnlyAim = false, ShowTriggerFOV = true,
-		ESPEnabled = true, ESPTeamCheck = true, ShowBoxes = true, ShowNames = true, ShowDistance = true, ShowHealth = true, ShowSkeleton = false,
+		ESPEnabled = true, ESPTeamCheck = true, ESPIgnoreBots = false, ShowBoxes = true, ShowNames = true, ShowDistance = true, ShowHealth = true, ShowSkeleton = false,
 		ShowHeadDot = true, ShowWeapon = true, ShowOffscreen = true, ChamsEnabled = true, ESPColor = "Red", ESPMaxDistance = 4000, ShowTracers = true,
 		SpeedEnabled = false, FlyEnabled = false, NoclipEnabled = false, InfJumpEnabled = false,
 		CrosshairEnabled = true, CrosshairSize = 6, CrosshairGap = 2, CrosshairThickness = 2, CrosshairDot = true, CrosshairColorName = "Red",
-		CrosshairReactive = true, HitMarkerEnabled = true, HitSoundEnabled = true,
+		CrosshairReactive = true, HitMarkerEnabled = true, HitSoundEnabled = true, HitMarkerStyle = "Cross", HitEffect = "Pulse", HitMarkerSize = 1.0, HitMarkerLifetime = 0.45,
 	},
 	legit = {
-		AimbotEnabled = true, AimHold = true, AimTeamCheck = true, VisibleCheck = true, AimPart = "Head", AimSpeed = 9,
+		AimbotEnabled = true, AimHold = true, AimTeamCheck = true, AimIgnoreBots = false, VisibleCheck = true, AimPart = "Head", AimSpeed = 9,
 		FOVRadius = 70, MaxAimDistance = 900, PredictionEnabled = true, PredictionTime = 0.08, ShowFOV = false, ShowTargetLine = false,
-		TriggerEnabled = false, TriggerTeamCheck = true, TriggerWallCheck = true, TriggerFOV = 4, TriggerHitbox = false, TriggerPart = "Head",
+		TriggerEnabled = false, TriggerTeamCheck = true, TriggerIgnoreBots = false, TriggerWallCheck = true, TriggerFOV = 4, TriggerHitbox = false, TriggerPart = "Head",
 		TriggerMaxDistance = 700, TriggerDelay = 0.12, TriggerInterval = 0.18, TriggerHumanize = true, TriggerOnlyAim = true, ShowTriggerFOV = false,
-		ESPEnabled = true, ESPTeamCheck = true, ShowBoxes = false, ShowNames = true, ShowDistance = true, ShowHealth = false, ShowSkeleton = false,
+		ESPEnabled = true, ESPTeamCheck = true, ESPIgnoreBots = false, ShowBoxes = false, ShowNames = true, ShowDistance = true, ShowHealth = false, ShowSkeleton = false,
 		ShowHeadDot = false, ShowWeapon = false, ShowOffscreen = false, ChamsEnabled = false, ESPColor = "White", ESPMaxDistance = 1500, ShowTracers = false,
 		SpeedEnabled = false, FlyEnabled = false, NoclipEnabled = false, InfJumpEnabled = false,
-		CrosshairEnabled = false, HitMarkerEnabled = false, HitSoundEnabled = false,
+		CrosshairEnabled = false, HitMarkerEnabled = false, HitSoundEnabled = false, HitMarkerStyle = "Cross", HitEffect = "Pulse", HitMarkerSize = 1.0, HitMarkerLifetime = 0.45,
 	},
 }
 local function SerializeValueTable(vals)
@@ -418,7 +461,6 @@ local function SeedBuiltinConfigs(log)
 	return seeded
 end
 
----------------------------------------------------------------- DEBUG LOG (dedupe + snapshot report)
 local DebugLog = {List = {}, Map = {}, Max = 300}
 function DebugLog.Push(mod, text, isErr)
 	local id = mod .. "|" .. text
@@ -462,7 +504,6 @@ end
 local GOTH, GOTHB, GOTHM, CODE = Enum.Font.Gotham, Enum.Font.GothamBold, Enum.Font.GothamMedium, Enum.Font.Code
 local LEFT, RIGHT, CENTER = Enum.TextXAlignment.Left, Enum.TextXAlignment.Right, Enum.TextXAlignment.Center
 
----------------------------------------------------------------- HUB
 local function LaunchHub(skinName)
 	local pref = SkinThemes[skinName] or SkinThemes.Classic
 	Prefs.Theme, Prefs.Accent = pref[1], pref[2]
@@ -470,12 +511,12 @@ local function LaunchHub(skinName)
 	DebugLog.Push("system", "hub init, skin = " .. skinName .. ", theme = " .. Prefs.Theme)
 
 	local S = {
-		AimbotEnabled = false, AimHold = true, AimTeamCheck = true, VisibleCheck = true, AimPart = "Head", AimSpeed = 14,
+		AimbotEnabled = false, AimHold = true, AimTeamCheck = true, AimIgnoreBots = false, VisibleCheck = true, AimPart = "Head", AimSpeed = 14,
 		FOVRadius = 150, MaxAimDistance = 1500, PredictionEnabled = false, PredictionTime = 0.12, ShowFOV = true, ShowTargetLine = false,
-		TriggerEnabled = false, TriggerTeamCheck = true, TriggerWallCheck = true, TriggerFOV = 5, TriggerHitbox = true, TriggerPart = "Any",
+		TriggerEnabled = false, TriggerTeamCheck = true, TriggerIgnoreBots = false, TriggerWallCheck = true, TriggerFOV = 5, TriggerHitbox = true, TriggerPart = "Any",
 		TriggerMaxDistance = 1000, TriggerDelay = 0.05, TriggerInterval = 0.1, TriggerHumanize = true, TriggerOnlyAim = false,
 		ShowTriggerFOV = true, TriggerClickMode = "Auto",
-		ESPEnabled = false, ESPTeamCheck = true, ShowBoxes = true, ShowNames = true, ShowDistance = true, ShowHealth = true,
+		ESPEnabled = false, ESPTeamCheck = true, ESPIgnoreBots = false, ShowBoxes = true, ShowNames = true, ShowDistance = true, ShowHealth = true,
 		ShowSkeleton = true, ShowHeadDot = false, ShowWeapon = false, ShowOffscreen = false, ChamsEnabled = false, ESPColor = "Red",
 		ESPMaxDistance = 3000, ShowTracers = false, TracerOrigin = "Bottom", CornerBoxEnabled = false,
 		SpeedEnabled = false, SpeedValue = 32, JumpEnabled = false, JumpValue = 80, FlyEnabled = false, FlySpeed = 70,
@@ -488,12 +529,15 @@ local function LaunchHub(skinName)
 		AtmosphereEnabled = false, AtmoDensity = 0.35, AtmoHaze = 2, AtmoColorName = "Theme", SunRaysEnabled = false,
 		SunRaysIntensity = 0.25, SunRaysSpread = 0.6, RainbowEnabled = false, RainbowSpeed = 0.2,
 		TimeOfDayEnabled = false, TimeOfDay = 14, TimeFlowEnabled = false, TimeFlowSpeed = 0.3,
-		GlowEnabled = false, GlowIntensity = 0.4, ColorGradeEnabled = false, ColorSaturation = 0, ColorTintName = "None",
-		VisionMode = "Off", DOFEnabled = false, DOFFocus = 60, DOFFar = 0.4, DOFRadius = 40, BlurEnabled = false, BlurSize = 8,
+		GlowEnabled = false, GlowIntensity = 0.4, GlowSize = 24, ColorGradeEnabled = false, ColorSaturation = 0, ColorContrast = 0, ColorBrightness = 0, ColorTintName = "None",
+		VisionMode = "Off", DOFEnabled = false, DOFFocus = 60, DOFFar = 0.4, DOFNear = 0, DOFRadius = 40, BlurEnabled = false, BlurSize = 8,
 		VignetteEnabled = false, VignetteIntensity = 0.5,
+		AmbientEnabled = false, AmbientColorName = "Theme", AmbientIntensity = 0.5,
+		StarsEnabled = false, StarCount = 3000,
+		AshEnabled = false, AshIntensity = 30,
 		CrosshairEnabled = false, CrosshairSize = 8, CrosshairGap = 4, CrosshairThickness = 2, CrosshairDot = true,
 		CrosshairColorName = "Theme", CrosshairSpin = false, CrosshairDynamic = true, CrosshairReactive = true,
-		HitMarkerEnabled = false, HitSoundEnabled = false, WorldPreset = "None", UIScale = 1, UIOpacity = 0,
+		HitMarkerEnabled = false, HitSoundEnabled = false, HitMarkerStyle = "Cross", HitEffect = "Pulse", HitMarkerSize = 1.0, HitMarkerLifetime = 0.45, WorldPreset = "None", UIScale = 1, UIOpacity = 0,
 	}
 	local Defaults = {}
 	for k, v in pairs(S) do Defaults[k] = v end
@@ -512,6 +556,8 @@ local function LaunchHub(skinName)
 	local ESPColorNames = {"Red", "Cyan", "Green", "Yellow", "Pink", "White"}
 	local CrosshairColorNames = {"Theme", "Red", "Cyan", "Green", "Yellow", "Pink", "White"}
 	local TracerOriginNames = {"Bottom", "Top", "Center"}
+local HitMarkerStyles = {"Cross", "X", "Plus", "Circle", "Diamond", "Star", "Brackets", "Dot", "Hit", "Skull", "Lightning"}
+local HitEffects = {"None", "Pulse", "Explosion", "Lightning", "Pulse+Explosion", "Pulse+Lightning", "Explosion+Lightning", "All"}
 	local WorldTintColors = {None = Color3.fromRGB(255,255,255), Blue = Color3.fromRGB(120,170,255), Orange = Color3.fromRGB(255,170,110),
 		Green = Color3.fromRGB(140,255,170), Purple = Color3.fromRGB(190,140,255), Sepia = Color3.fromRGB(255,210,150)}
 	local WorldTintNames = {"None", "Blue", "Orange", "Green", "Purple", "Sepia"}
@@ -527,8 +573,9 @@ local function LaunchHub(skinName)
 	local WorldKeys = {"SnowEnabled","SnowIntensity","RainEnabled","RainIntensity","WindStrength","FogEnabled","FogDensity","FogColorName",
 		"LightningEnabled","LightningInterval","AtmosphereEnabled","AtmoDensity","AtmoHaze","AtmoColorName","SunRaysEnabled","SunRaysIntensity",
 		"SunRaysSpread","RainbowEnabled","RainbowSpeed","TimeOfDayEnabled","TimeOfDay","TimeFlowEnabled","TimeFlowSpeed","GlowEnabled",
-		"GlowIntensity","ColorGradeEnabled","ColorSaturation","ColorTintName","VisionMode","DOFEnabled","DOFFocus","DOFFar","DOFRadius",
-		"BlurEnabled","BlurSize","VignetteEnabled","VignetteIntensity","ExposureEnabled","Exposure","HideCloudsEnabled"}
+		"GlowIntensity","GlowSize","ColorGradeEnabled","ColorSaturation","ColorContrast","ColorBrightness","ColorTintName","VisionMode","DOFEnabled","DOFFocus","DOFFar","DOFNear","DOFRadius",
+		"BlurEnabled","BlurSize","VignetteEnabled","VignetteIntensity","ExposureEnabled","Exposure","HideCloudsEnabled",
+		"AmbientEnabled","AmbientColorName","AmbientIntensity","StarsEnabled","StarCount","AshEnabled","AshIntensity"}
 	local Presets = {
 		Thunderstorm = {RainEnabled = true, RainIntensity = 150, WindStrength = 10, FogEnabled = true, FogDensity = 350, FogColorName = "Blue",
 			LightningEnabled = true, LightningInterval = 7, TimeOfDayEnabled = true, TimeOfDay = 20, VignetteEnabled = true, VignetteIntensity = 0.6,
@@ -541,8 +588,15 @@ local function LaunchHub(skinName)
 			RainbowSpeed = 0.15, VignetteEnabled = true, VignetteIntensity = 0.5, AtmosphereEnabled = true, AtmoDensity = 0.4, AtmoHaze = 3, AtmoColorName = "Purple"},
 		["Foggy Dawn"] = {TimeOfDayEnabled = true, TimeOfDay = 6.2, FogEnabled = true, FogDensity = 260, FogColorName = "Sepia", AtmosphereEnabled = true,
 			AtmoDensity = 0.5, AtmoHaze = 4, AtmoColorName = "Sepia", SunRaysEnabled = true, SunRaysIntensity = 0.3, DOFEnabled = true, DOFFar = 0.25},
+		["Clear Night"] = {TimeOfDayEnabled = true, TimeOfDay = 1.5, StarsEnabled = true, StarCount = 6000, AmbientEnabled = true, AmbientColorName = "Blue",
+			AmbientIntensity = 0.25, VignetteEnabled = true, VignetteIntensity = 0.35},
+		["Volcanic"] = {AshEnabled = true, AshIntensity = 50, TimeOfDayEnabled = true, TimeOfDay = 19, AtmosphereEnabled = true, AtmoDensity = 0.45,
+			AtmoHaze = 5, AtmoColorName = "Orange", ColorGradeEnabled = true, ColorSaturation = 0.15, ColorContrast = 0.1, ColorTintName = "Orange",
+			GlowEnabled = true, GlowIntensity = 0.4},
+		["Faded Film"] = {ColorGradeEnabled = true, ColorSaturation = -0.5, ColorContrast = -0.15, ColorBrightness = 0.05, ColorTintName = "Sepia",
+			VignetteEnabled = true, VignetteIntensity = 0.45, GlowEnabled = true, GlowIntensity = 0.2},
 	}
-	local PresetNames = {"None", "Clear", "Thunderstorm", "Blizzard", "Golden Hour", "Cyber Night", "Foggy Dawn"}
+	local PresetNames = {"None", "Clear", "Thunderstorm", "Blizzard", "Golden Hour", "Cyber Night", "Foggy Dawn", "Clear Night", "Volcanic", "Faded Film"}
 	local R15Bones = {{"Head","UpperTorso"},{"UpperTorso","LowerTorso"},{"UpperTorso","LeftUpperArm"},{"LeftUpperArm","LeftLowerArm"},{"LeftLowerArm","LeftHand"},
 		{"UpperTorso","RightUpperArm"},{"RightUpperArm","RightLowerArm"},{"RightLowerArm","RightHand"},{"LowerTorso","LeftUpperLeg"},{"LeftUpperLeg","LeftLowerLeg"},
 		{"LeftLowerLeg","LeftFoot"},{"LowerTorso","RightUpperLeg"},{"RightUpperLeg","RightLowerLeg"},{"RightLowerLeg","RightFoot"}}
@@ -551,6 +605,7 @@ local function LaunchHub(skinName)
 	local R6Names = {"Head","Torso","Left Arm","Right Arm","Left Leg","Right Leg"}
 
 	local Conns, Sync, Hooks, Entries, Widgets, Infos, OnBind = {}, {}, {}, {}, {}, {}, {}
+local EntryOrder, EntryIndex = {}, {}
 	local Unloaded, Listening, Skin = false, nil, nil
 	local MenuState = {Open = false}
 	local SessionStart = os.clock()
@@ -558,6 +613,26 @@ local function LaunchHub(skinName)
 	local Skins = {}
 
 	local function Connect(sig, cb) local c = sig:Connect(cb); table.insert(Conns, c); return c end
+
+	local function CollapseOnScroll(header, group, chevron)
+		local collapsed = false
+		local hovering = false
+		local function Paint()
+			group.Visible = not collapsed
+			if chevron then Tween(chevron, {Rotation = collapsed and -90 or 0}, 0.15) end
+		end
+		Connect(header.MouseEnter, function() hovering = true end)
+		Connect(header.MouseLeave, function() hovering = false end)
+		Connect(UserInputService.InputChanged, function(input)
+			if not hovering then return end
+			if input.UserInputType ~= Enum.UserInputType.MouseWheel then return end
+			local up = input.Position.Z > 0
+			if up and not collapsed then collapsed = true; Paint()
+			elseif (not up) and collapsed then collapsed = false; Paint() end
+		end)
+		return {IsCollapsed = function() return collapsed end}
+	end
+
 	local function SetValue(key, value)
 		S[key] = value
 		if Sync[key] then for _, fn in ipairs(Sync[key]) do fn() end end
@@ -596,8 +671,8 @@ local function LaunchHub(skinName)
 	end
 
 	local Combat = {LastFire = 0}
-	local Aim = {}
-	local Trigger = {Last = 0, Interval = 0.1}
+	local Aim = {ScanAccum = 0, ScanInterval = 1 / 45}
+	local Trigger = {LastScan = 0, EnterTime = nil, NextFire = 0, Player = nil, Part = nil, Target = nil, ScanInterval = 1 / 30, CenterAccum = 0}
 	local Fly = {Active = false}
 	local Noclip = {Parts = {}, Character = nil, BaseParts = {}, Next = 0}
 	local Applied = {Speed = false, Jump = false}
@@ -606,11 +681,10 @@ local function LaunchHub(skinName)
 	local Freecam = {Active = false, Yaw = 0, Pitch = 0, Position = Vector3.zero}
 
 	local AimParams = RaycastParams.new()
-	AimParams.FilterType = Enum.RaycastFilterType.Exclude; AimParams.IgnoreWater = true; AimParams.RespectCanCollide = true
+	AimParams.FilterType = Enum.RaycastFilterType.Exclude; AimParams.IgnoreWater = true; AimParams.RespectCanCollide = false
 	local TriggerParams = RaycastParams.new()
-	TriggerParams.FilterType = Enum.RaycastFilterType.Exclude; TriggerParams.IgnoreWater = true; TriggerParams.RespectCanCollide = true
+	TriggerParams.FilterType = Enum.RaycastFilterType.Exclude; TriggerParams.IgnoreWater = true; TriggerParams.RespectCanCollide = false
 
-	---------------------------------------------------------- FREECAM
 	local function MoveDir(rot)
 		local d = Vector3.zero
 		if UserInputService:IsKeyDown(Enum.KeyCode.W) then d += rot.LookVector end
@@ -660,11 +734,16 @@ local function LaunchHub(skinName)
 		Camera.CFrame = CFrame.new(Freecam.Position) * rot
 	end
 
-	---------------------------------------------------------- COMBAT
 	local function IsEnemy(player, teamCheck)
 		if player == LocalPlayer then return false end
 		if teamCheck and player.Team ~= nil and player.Team == LocalPlayer.Team then return false end
 		return true
+	end
+	local function EntryIsTargetable(entity, e, teamCheck, ignoreBots)
+		if e and e.IsBot then
+			return not ignoreBots
+		end
+		return entity ~= nil and IsEnemy(entity, teamCheck)
 	end
 	local function PartOf(e, name)
 		local p = e.Parts[name]
@@ -690,22 +769,27 @@ local function LaunchHub(skinName)
 	local function FindTarget()
 		local bestPart, bestPos, bestPlayer, best = nil, nil, nil, math.huge
 		local vp = Camera.ViewportSize
-		local center = Vector2.new(vp.X / 2, vp.Y / 2)
+		local center = Vector2.new(vp.X * 0.5, vp.Y * 0.5)
 		local camPos = Camera.CFrame.Position
 		local lc = LocalPlayer.Character
 		AimParams.FilterDescendantsInstances = lc and {lc} or {}
-		for _, player in ipairs(Players:GetPlayers()) do
-			if IsEnemy(player, S.AimTeamCheck) then
-				local e = Entries[player]
-				if e and e.Refresh() then
-					local part = GetAimPart(e)
+		local entryCount = #EntryOrder
+		for i = 1, entryCount do
+			local entity = EntryOrder[i]
+			local e = Entries[entity]
+			if e and EntryIsTargetable(entity, e, S.AimTeamCheck, S.AimIgnoreBots) and e.Refresh() then
+				local part = GetAimPart(e)
+				if part then
 					local pos = Predict(part)
-					if (pos - camPos).Magnitude <= S.MaxAimDistance then
+					local delta = pos - camPos
+					if delta:Dot(delta) <= S.MaxAimDistance * S.MaxAimDistance then
 						local sc, on = Camera:WorldToViewportPoint(pos)
 						if on then
-							local d = (Vector2.new(sc.X, sc.Y) - center).Magnitude
-							if d <= S.FOVRadius and d < best and (not S.VisibleCheck or IsVisible(part, e.Character, AimParams)) then
-								best, bestPart, bestPos, bestPlayer = d, part, pos, player
+							local dx, dy = sc.X - center.X, sc.Y - center.Y
+							local d2 = dx * dx + dy * dy
+							if d2 <= S.FOVRadius * S.FOVRadius and d2 < best * best and (not S.VisibleCheck or IsVisible(part, e.Character, AimParams)) then
+								best = math.sqrt(d2)
+								bestPart, bestPos, bestPlayer = part, pos, entity
 							end
 						end
 					end
@@ -715,94 +799,324 @@ local function LaunchHub(skinName)
 		return bestPart, bestPos, bestPlayer
 	end
 	function Aim.Update(dt)
-		Aim.Part, Aim.Position, Aim.Player = nil, nil, nil
-		if not S.AimbotEnabled or Freecam.Active then return end
-		local part, pos, player = FindTarget()
-		Aim.Part, Aim.Position, Aim.Player = part, pos, player
-		if not part then return end
+		if not S.AimbotEnabled or Freecam.Active then
+			Aim.Part, Aim.Position, Aim.Player = nil, nil, nil
+			Aim.ScanAccum = 0
+			return
+		end
+		Aim.ScanAccum = (Aim.ScanAccum or 0) + dt
+		if Aim.Part == nil or Aim.ScanAccum >= (Aim.ScanInterval or (1 / 75)) then
+			Aim.ScanAccum = 0
+			Aim.Part, Aim.Position, Aim.Player = FindTarget()
+		end
+		local part, pos = Aim.Part, Aim.Position
+		if not part or not pos or part.Parent == nil then
+			Aim.Part, Aim.Position, Aim.Player = nil, nil, nil
+			return
+		end
 		if S.AimHold and not UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) then return end
 		local cur = Camera.CFrame
 		if (pos - cur.Position).Magnitude < 0.01 then return end
 		Camera.CFrame = cur:Lerp(CFrame.lookAt(cur.Position, pos), 1 - math.exp(-S.AimSpeed * dt))
 	end
 
-	local Scratch = {}
-	local function CollectParts(e)
-		table.clear(Scratch)
-		local r15 = e.Humanoid.RigType == Enum.HumanoidRigType.R15
-		if S.TriggerPart == "Head" then
-			local h = PartOf(e, "Head"); if h then table.insert(Scratch, h) end
-		elseif S.TriggerPart == "Body" then
-			local t = PartOf(e, r15 and "UpperTorso" or "Torso")
-			if t then table.insert(Scratch, t) end
-			if e.Root ~= t then table.insert(Scratch, e.Root) end
+	local TriggerPartNames = {
+		R15 = {"Head","UpperTorso","LowerTorso","LeftUpperArm","RightUpperArm","LeftUpperLeg","RightUpperLeg"},
+		R6 = {"Head","Torso","Left Arm","Right Arm","Left Leg","Right Leg"},
+	}
+	local function CollectTriggerParts(e)
+		local mode = S.TriggerPart
+		if e.TriggerMode == mode and e.TriggerCharacter == e.Character and e.TriggerParts and #e.TriggerParts > 0 then
+			return e.TriggerParts
+		end
+		e.TriggerParts = e.TriggerParts or {}
+		table.clear(e.TriggerParts)
+		e.TriggerMode, e.TriggerCharacter = mode, e.Character
+		if mode == "Head" then
+			local h = PartOf(e, "Head")
+			if h then e.TriggerParts[1] = h end
+		elseif mode == "Body" then
+			local torso = PartOf(e, e.Humanoid.RigType == Enum.HumanoidRigType.R15 and "UpperTorso" or "Torso")
+			if torso then e.TriggerParts[#e.TriggerParts + 1] = torso end
+			if e.Root and e.Root ~= torso then e.TriggerParts[#e.TriggerParts + 1] = e.Root end
 		else
-			for _, n in ipairs(r15 and R15Names or R6Names) do
-				local p = PartOf(e, n); if p then table.insert(Scratch, p) end
+			local names = e.Humanoid.RigType == Enum.HumanoidRigType.R15 and TriggerPartNames.R15 or TriggerPartNames.R6
+			for _, n in ipairs(names) do
+				local p = PartOf(e, n)
+				if p then e.TriggerParts[#e.TriggerParts + 1] = p end
 			end
 		end
-		return Scratch
+		return e.TriggerParts
 	end
-	local VIM
+
+	local VIM, MouseApiFailed = nil, false
+	local TriggerRayScratch = {}
+
+	local function ResetTriggerState()
+		Trigger.Player, Trigger.Part, Trigger.Target = nil, nil, nil
+		Trigger.EnterTime, Trigger.NextFire = nil, 0
+	end
+
 	local function FireTrigger()
-		if S.TriggerClickMode ~= "Tool" and not Trigger.NoMouse and not MenuState.Open then
+		if MenuState.Open or UserInputService:GetFocusedTextBox() then return false end
+
+		if S.TriggerClickMode == "Tool" then
+			local ch = LocalPlayer.Character
+			local tool = ch and ch:FindFirstChildOfClass("Tool")
+			if tool and tool.Enabled then
+				local ok = pcall(function() tool:Activate() end)
+				return ok
+			end
+			return false
+		end
+
+		if type(mouse1click) == "function" then
+			local ok = pcall(mouse1click)
+			if ok then return true end
+		end
+
+		if not MouseApiFailed then
 			local ok = pcall(function()
 				VIM = VIM or game:GetService("VirtualInputManager")
 				local p = UserInputService:GetMouseLocation()
-				if UserInputService.MouseBehavior == Enum.MouseBehavior.LockCenter then p = Camera.ViewportSize / 2 end
+				if UserInputService.MouseBehavior == Enum.MouseBehavior.LockCenter then
+					p = Camera.ViewportSize / 2
+				end
 				VIM:SendMouseButtonEvent(p.X, p.Y, 0, true, game, 0)
 				VIM:SendMouseButtonEvent(p.X, p.Y, 0, false, game, 0)
 			end)
 			if ok then return true end
-			Trigger.NoMouse = true
+			MouseApiFailed = true
 			Notify(Locale.T("TOAST_NOMOUSE"))
-			DebugLog.Push("triggerbot", "mouse api unavailable, fallback to tool click")
+			DebugLog.Push("triggerbot", "mouse input unavailable; using Tool fallback")
 		end
+
 		local ch = LocalPlayer.Character
 		local tool = ch and ch:FindFirstChildOfClass("Tool")
-		if tool and tool.Enabled then tool:Activate(); return true end
+		if tool and tool.Enabled then
+			local ok = pcall(function() tool:Activate() end)
+			if ok then return true end
+		end
 		return false
 	end
-	function Trigger.Update()
-		Trigger.Player = nil
-		if not S.TriggerEnabled or Freecam.Active then Trigger.EnterTime = nil; return end
-		if S.TriggerOnlyAim and not UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) then Trigger.EnterTime = nil; return end
+
+	local function ResolveEntityFromHit(inst)
+		if not inst then return nil, nil, nil end
+		local current = inst
+		for _ = 1, 12 do
+			if not current or current == Workspace then break end
+			local entity = nil
+			local e = Entries[current]
+			if e then
+				return current, e, inst:IsA("BasePart") and inst or nil
+			end
+			local player = Players:GetPlayerFromCharacter(current)
+			if player and Entries[player] then
+				return player, Entries[player], inst:IsA("BasePart") and inst or nil
+			end
+			current = current.Parent
+		end
+
+		return nil, nil, nil
+	end
+
+	local function CenterRayTarget()
 		local vp = Camera.ViewportSize
-		local center = Vector2.new(vp.X / 2, vp.Y / 2)
-		local ppS = vp.Y / (2 * math.tan(math.rad(Camera.FieldOfView) / 2))
-		local lc = LocalPlayer.Character
-		TriggerParams.FilterDescendantsInstances = lc and {lc} or {}
-		local bestPlayer, best = nil, math.huge
-		for _, player in ipairs(Players:GetPlayers()) do
-			if IsEnemy(player, S.TriggerTeamCheck) then
-				local e = Entries[player]
-				if e and e.Refresh() then
-					for _, part in ipairs(CollectParts(e)) do
-						local sc = Camera:WorldToViewportPoint(part.Position)
-						if sc.Z > 0 and sc.Z <= S.TriggerMaxDistance then
-							local reach = S.TriggerFOV
-							if S.TriggerHitbox then reach += math.max(part.Size.X, part.Size.Y) * 0.5 * ppS / sc.Z end
-							local d = (Vector2.new(sc.X, sc.Y) - center).Magnitude
-							if d <= reach and d < best and (not S.TriggerWallCheck or IsVisible(part, e.Character, TriggerParams)) then
-								best, bestPlayer = d, player
+		local center = Vector2.new(vp.X * 0.5, vp.Y * 0.5)
+		local ray = Camera:ViewportPointToRay(center.X, center.Y)
+		local maxDist = math.max(S.TriggerMaxDistance, 1)
+		local hit = Workspace:Raycast(ray.Origin, ray.Direction * maxDist, TriggerParams)
+		if not hit then return nil, nil, nil end
+
+		local entity, e, hitPart = ResolveEntityFromHit(hit.Instance)
+		if not entity or not e or not e.Refresh() or not EntryIsTargetable(entity, e, S.TriggerTeamCheck, S.TriggerIgnoreBots) then
+			return nil, nil, nil
+		end
+
+		local part = hitPart
+		if not part or not part:IsA("BasePart") or not part:IsDescendantOf(e.Character) then
+			part = PartOf(e, "Head") or e.Root
+		end
+		return entity, part, e
+	end
+
+	local TriggerScanRuntime = {Cursor = 1}
+	local function FindTriggerTarget()
+		local vp = Camera.ViewportSize
+		local center = Vector2.new(vp.X * 0.5, vp.Y * 0.5)
+		local tanHalf = math.tan(math.rad(Camera.FieldOfView) * 0.5)
+		local ppS = tanHalf > 0.0001 and (vp.Y / (2 * tanHalf)) or 1
+		local camPos = Camera.CFrame.Position
+		local maxDistSq = S.TriggerMaxDistance * S.TriggerMaxDistance
+		TriggerParams.FilterDescendantsInstances = (LocalPlayer.Character and {LocalPlayer.Character}) or {}
+
+		local hitEntity, hitPart, hitEntry = CenterRayTarget()
+		if hitEntity and hitPart then
+			return hitEntity, hitPart, hitEntry
+		end
+
+		local now = os.clock()
+		if now - (Trigger.LastScan or 0) < (Trigger.ScanInterval or (1 / 45)) then
+			return nil, nil, nil
+		end
+		Trigger.LastScan = now
+
+		local candidates = {}
+		local function addCandidate(entity, e, part, screenDistSq, worldDistSq)
+			local candidate = {Entity = entity, Entry = e, Part = part, Distance = screenDistSq, WorldDistanceSq = worldDistSq}
+			if #candidates < 6 then
+				candidates[#candidates + 1] = candidate
+				return
+			end
+			local worst = 1
+			for i = 2, #candidates do
+				if candidates[i].Distance > candidates[worst].Distance then worst = i end
+			end
+			if screenDistSq < candidates[worst].Distance then
+				candidates[worst] = candidate
+			end
+		end
+
+		local count = #EntryOrder
+		if count > 0 then
+			local work = count >= 45 and 24 or count
+			if work > count then work = count end
+			for _ = 1, work do
+				if TriggerScanRuntime.Cursor > count then TriggerScanRuntime.Cursor = 1 end
+				local entity = EntryOrder[TriggerScanRuntime.Cursor]
+				TriggerScanRuntime.Cursor += 1
+				local e = entity and Entries[entity]
+				if e and EntryIsTargetable(entity, e, S.TriggerTeamCheck, S.TriggerIgnoreBots) and e.Refresh() then
+					local root = e.Root
+					if root and root.Parent then
+						local rootDelta = root.Position - camPos
+						local rootDistSq = rootDelta:Dot(rootDelta)
+						if rootDistSq <= maxDistSq then
+							local parts = CollectTriggerParts(e)
+							for i = 1, #parts do
+								local part = parts[i]
+								if part and part.Parent then
+									local delta = part.Position - camPos
+									local distSq = delta:Dot(delta)
+									if distSq <= maxDistSq then
+										local sc = Camera:WorldToViewportPoint(part.Position)
+										if sc.Z > 0 then
+											local reach = S.TriggerFOV
+											if S.TriggerHitbox then
+												reach += math.max(part.Size.X, part.Size.Y) * 0.5 * ppS / math.max(sc.Z, 1)
+											end
+											local dx, dy = sc.X - center.X, sc.Y - center.Y
+											local screenDistSq = dx * dx + dy * dy
+											if screenDistSq <= reach * reach then
+												addCandidate(entity, e, part, screenDistSq, distSq)
+												if screenDistSq <= 0.01 then break end
+											end
+										end
+									end
+								end
 							end
 						end
 					end
 				end
 			end
 		end
-		if not bestPlayer then Trigger.EnterTime = nil; return end
-		Trigger.Player = bestPlayer
+
+		table.sort(candidates, function(a, b)
+			if a.Distance == b.Distance then return a.WorldDistanceSq < b.WorldDistanceSq end
+			return a.Distance < b.Distance
+		end)
+
+		for i = 1, #candidates do
+			local c = candidates[i]
+			local e = c.Entry
+			if e and e.Refresh() and c.Part and c.Part.Parent then
+				if not S.TriggerWallCheck or IsVisible(c.Part, e.Character, TriggerParams) then
+					return c.Entity, c.Part, e
+				end
+			end
+		end
+		return nil, nil, nil
+	end
+
+	local function TriggerTargetStillValid(entity, part, e)
+		if not entity or not part or not e or Entries[entity] ~= e or not e.Refresh() then return false end
+		if not EntryIsTargetable(entity, e, S.TriggerTeamCheck, S.TriggerIgnoreBots) then return false end
+		local maxDist = math.max(S.TriggerMaxDistance, 1)
+		local delta = part.Position - Camera.CFrame.Position
+		if delta:Dot(delta) > maxDist * maxDist then return false end
+
+		local vp = Camera.ViewportSize
+		local center = Vector2.new(vp.X * 0.5, vp.Y * 0.5)
+		local sc = Camera:WorldToViewportPoint(part.Position)
+		if sc.Z <= 0 then return false end
+		local dx, dy = sc.X - center.X, sc.Y - center.Y
+		local reach = S.TriggerFOV
+		if S.TriggerHitbox then
+			local tanHalf = math.tan(math.rad(Camera.FieldOfView) * 0.5)
+			local ppS = tanHalf > 0.0001 and (vp.Y / (2 * tanHalf)) or 1
+			reach += math.max(part.Size.X, part.Size.Y) * 0.5 * ppS / math.max(sc.Z, 1)
+		end
+		if dx * dx + dy * dy > reach * reach then return false end
+
+		if S.TriggerWallCheck then
+			TriggerParams.FilterDescendantsInstances = (LocalPlayer.Character and {LocalPlayer.Character}) or {}
+			if not IsVisible(part, e.Character, TriggerParams) then return false end
+		end
+		return true
+	end
+
+	function Trigger.Update()
+		if not S.TriggerEnabled or Freecam.Active or MenuState.Open or UserInputService:GetFocusedTextBox() then
+			ResetTriggerState()
+			return
+		end
+		if S.TriggerOnlyAim and not UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2) then
+			ResetTriggerState()
+			return
+		end
+
 		local now = os.clock()
+		local currentEntity, currentPart = Trigger.Player, Trigger.Part
+		local currentEntry = Trigger.Target and Entries[Trigger.Target] or nil
+		local lockedValid = currentEntity and currentPart and currentEntry and TriggerTargetStillValid(currentEntity, currentPart, currentEntry)
+
+		if not lockedValid then
+			local centerEntity, centerPart, centerEntry = CenterRayTarget()
+			if centerEntity and centerPart and centerEntry then
+				currentEntity, currentPart, currentEntry = centerEntity, centerPart, centerEntry
+				lockedValid = true
+			end
+			if (not lockedValid) and now - (Trigger.LastScan or 0) >= (Trigger.ScanInterval or 1 / 30) then
+				currentEntity, currentPart, currentEntry = FindTriggerTarget()
+				Trigger.LastScan = now
+			end
+		end
+
+		if not currentEntity or not currentPart or not currentEntry then
+			Trigger.Player, Trigger.Part, Trigger.Target, Trigger.EnterTime = nil, nil, nil, nil
+			return
+		end
+
+		if Trigger.Target ~= currentEntity then
+			Trigger.Target = currentEntity
+			Trigger.EnterTime = now
+		end
+		Trigger.Player, Trigger.Part = currentEntity, currentPart
+	
 		Trigger.EnterTime = Trigger.EnterTime or now
-		if now - Trigger.EnterTime < S.TriggerDelay or now - Trigger.Last < Trigger.Interval then return end
+		if now - Trigger.EnterTime < math.max(S.TriggerDelay, 0) then return end
+		if now < (Trigger.NextFire or 0) then return end
+
+		if not TriggerTargetStillValid(currentEntity, currentPart, currentEntry) then return end
+
 		if FireTrigger() then
-			Trigger.Last, Combat.LastFire = now, now
-			Trigger.Interval = S.TriggerInterval * (S.TriggerHumanize and (1 + math.random() * 0.4) or 1)
+			local interval = math.clamp(tonumber(S.TriggerInterval) or 0.02, 0.02, 0.6)
+			if S.TriggerHumanize then interval *= 1 + math.random() * 0.18 end
+			Trigger.NextFire = now + interval
+			Combat.LastFire = now
 		end
 	end
 
-	---------------------------------------------------------- ESP
 	local function DrawLine(f, a, b, color, th)
 		local d = b - a
 		f.Position = UDim2.fromOffset((a.X + b.X) / 2, (a.Y + b.Y) / 2)
@@ -811,9 +1125,82 @@ local function LaunchHub(skinName)
 		f.BackgroundColor3 = color
 		f.Visible = true
 	end
-	local function NewEntry(player)
-		local folder = New("Folder", Overlay, {Name = "ESP_" .. player.UserId})
-		local e = {Folder = folder, Shown = false, Bones = {}, Parts = {}}
+	local NextBotId = 0
+	local BotByHumanoid, BotByRoot = {}, {}
+
+	local function IsUnderPlayerCharacter(model)
+		if not model then return false end
+		local cur = model
+		for _ = 1, 16 do
+			if not cur or cur == Workspace then break end
+			if cur:IsA("Model") then
+				if Players:GetPlayerFromCharacter(cur) then return true end
+				for _, player in ipairs(Players:GetPlayers()) do
+					if player.Character == cur then return true end
+				end
+			end
+			cur = cur.Parent
+		end
+		return false
+	end
+
+	local function IsBotModel(model)
+		if not model or not model:IsA("Model") or not model:IsDescendantOf(Workspace) then return false end
+		if IsUnderPlayerCharacter(model) then return false end
+		local hum = model:FindFirstChildOfClass("Humanoid")
+		if not hum then return false end
+		return (hum.RootPart or model:FindFirstChild("HumanoidRootPart")) ~= nil
+	end
+
+	local function GetBotParts(model)
+		local hum = model and model:FindFirstChildOfClass("Humanoid")
+		local root = hum and (hum.RootPart or model:FindFirstChild("HumanoidRootPart"))
+		return hum, root
+	end
+
+	local function CanonicalBotModel(model)
+		if not IsBotModel(model) then return nil end
+		local hum, root = GetBotParts(model)
+		if not hum or not root then return nil end
+		local canonical = model
+		local parent = model.Parent
+		while parent and parent:IsA("Model") do
+			local ph = parent:FindFirstChildOfClass("Humanoid")
+			local pr = ph and (ph.RootPart or parent:FindFirstChild("HumanoidRootPart"))
+			if ph == hum or pr == root then
+				canonical = parent
+			else
+				break
+			end
+			parent = parent.Parent
+		end
+		return canonical
+	end
+
+	do
+		local ok, err = pcall(function()
+			local dummy = Instance.new("Model")
+			dummy.Name = "VortexSelfTestDummy"
+			local hum = Instance.new("Humanoid", dummy)
+			local root = Instance.new("Part", dummy)
+			root.Name = "HumanoidRootPart"
+			IsUnderPlayerCharacter(dummy)
+			IsBotModel(dummy)
+			GetBotParts(dummy)
+			CanonicalBotModel(dummy)
+			dummy:Destroy()
+		end)
+		if not ok then DebugLog.Push("selftest", "bot-identity self-test failed: " .. tostring(err), true) end
+	end
+
+	local function NewEntry(entity, isBot)
+		if isBot then NextBotId += 1 end
+		local folderName = isBot and ("ESP_BOT_" .. tostring(NextBotId)) or ("ESP_" .. entity.UserId)
+		local folder = New("Folder", Overlay, {Name = folderName})
+		local e = {
+			Folder = folder, Shown = false, Bones = {}, Parts = {}, TriggerParts = {}, TriggerMode = nil,
+			TriggerCharacter = nil, LastToolCheck = 0, Entity = entity, IsBot = isBot == true
+		}
 		e.Box = New("Frame", folder, {BackgroundTransparency = 1, BorderSizePixel = 0, Visible = false, ZIndex = 2})
 		e.BoxStroke = New("UIStroke", e.Box, {Thickness = 1.5, Color = Color3.new(1,1,1)})
 		e.NameLabel = New("TextLabel", folder, {AnchorPoint = Vector2.new(0.5,1), Size = UDim2.fromOffset(200,14), BackgroundTransparency = 1, Font = GOTHB,
@@ -829,40 +1216,65 @@ local function LaunchHub(skinName)
 			table.insert(e.Bones, New("Frame", folder, {AnchorPoint = Vector2.new(0.5,0.5), BorderSizePixel = 0, Visible = false, ZIndex = 2}))
 		end
 		function e.Refresh()
-			local ch, hum, root = player.Character, e.Humanoid, e.Root
+			local target = e.Entity
+			local ch = e.IsBot and target or (target and target.Character)
+			local hum, root = e.Humanoid, e.Root
 			if e.Character ~= ch or not hum or not root or hum.Parent ~= ch or root.Parent ~= ch then
 				table.clear(e.Parts)
-				e.Character, e.Humanoid, e.Root, e.Tool, e.ChamColor = ch, nil, nil, nil, nil
+				e.Character, e.Humanoid, e.Root, e.Tool, e.ChamColor, e.TriggerMode, e.TriggerCharacter = ch, nil, nil, nil, nil, nil, nil
+				table.clear(e.TriggerParts)
 				if not ch then return false end
 				hum = ch:FindFirstChildOfClass("Humanoid")
 				root = hum and (hum.RootPart or ch:FindFirstChild("HumanoidRootPart"))
 				if not hum or not root then return false end
 				e.Humanoid, e.Root = hum, root
 			end
-			return hum.Health > 0
+			return hum.Health > 0 and ch.Parent ~= nil and root.Parent == ch
 		end
-		Entries[player] = e
+		Entries[entity] = e
+		EntryIndex[entity] = #EntryOrder + 1
+		EntryOrder[#EntryOrder + 1] = entity
+		return e
 	end
-	local function RemoveEntry(player)
-		local e = Entries[player]
+	local function NewPlayerEntry(player) return NewEntry(player, false) end
+	local function NewBotEntry(model) return NewEntry(model, true) end
+
+	local function RemoveEntry(entity)
+		local e = Entries[entity]
 		if not e then return end
+		if e.IsBot then
+			if e.Humanoid then BotByHumanoid[e.Humanoid] = nil end
+			if e.Root then BotByRoot[e.Root] = nil end
+		end
 		if e.Cham then e.Cham:Destroy() end
 		e.Folder:Destroy()
-		Entries[player] = nil
+		local idx = EntryIndex[entity]
+		local last = EntryOrder[#EntryOrder]
+		if idx then
+			EntryOrder[idx] = last
+			if last ~= nil then EntryIndex[last] = idx end
+			EntryOrder[#EntryOrder] = nil
+			EntryIndex[entity] = nil
+		end
+		Entries[entity] = nil
 	end
 	local function HideEntry(e)
-		if not e.Shown then return end
 		e.Shown = false
 		e.Box.Visible, e.NameLabel.Visible, e.Info.Visible, e.HealthBack.Visible, e.Dot.Visible, e.Arrow.Visible, e.Tracer.Visible = false, false, false, false, false, false, false
+		if e.Corners then for _, f in ipairs(e.Corners) do f.Visible = false end end
 		for _, b in ipairs(e.Bones) do b.Visible = false end
 	end
-	local function UpdateEntry(player, e)
-		if not S.ESPEnabled or not IsEnemy(player, S.ESPTeamCheck) or not e.Refresh() then HideEntry(e); return end
+	local function UpdateEntry(entity, e, heavy)
+		if e.IsBot and IsUnderPlayerCharacter(e.Entity) then
+			HideEntry(e)
+			return
+		end
+		if not S.ESPEnabled or not EntryIsTargetable(entity, e, S.ESPTeamCheck, S.ESPIgnoreBots) or not e.Refresh() then HideEntry(e); return end
 		local ch, hum, root = e.Character, e.Humanoid, e.Root
 		local dist = (root.Position - Camera.CFrame.Position).Magnitude
 		if dist > S.ESPMaxDistance then HideEntry(e); return end
 		local color = ESPColors[S.ESPColor] or ESPColors.Red
-		if Aim.Player == player then color = Theme.Accent end
+		if Aim.Player == entity then color = Theme.Accent end
 		local rs, on = Camera:WorldToViewportPoint(root.Position)
 		if not on then
 			HideEntry(e)
@@ -918,9 +1330,15 @@ local function LaunchHub(skinName)
 		else
 			e.Tracer.Visible = false
 		end
-		if S.ShowNames then
-			e.NameLabel.Position = UDim2.fromOffset(x, topY - 3)
-			e.NameLabel.Text = player.Name
+		if e.IsBot then
+			e.NameLabel.Position = UDim2.fromOffset(x, topY - 5)
+			e.NameLabel.Text = Locale.T("BOT_LABEL")
+			e.NameLabel.TextColor3 = color
+			e.NameLabel.Visible = true
+		elseif S.ShowNames then
+			e.NameLabel.Position = UDim2.fromOffset(x, topY - 5)
+			e.NameLabel.Text = entity.Name
+			e.NameLabel.TextColor3 = Color3.new(1,1,1)
 			e.NameLabel.Visible = true
 		else
 			e.NameLabel.Visible = false
@@ -928,9 +1346,12 @@ local function LaunchHub(skinName)
 		local lines = {}
 		if S.ShowDistance then table.insert(lines, math.floor(dist) .. " m") end
 		if S.ShowWeapon then
-			local tool = e.Tool
-			if tool == nil or tool.Parent ~= ch then tool = ch:FindFirstChildOfClass("Tool"); e.Tool = tool end
-			table.insert(lines, tool and tool.Name or "None")
+			local now = os.clock()
+			if now - (e.LastToolCheck or 0) >= 0.12 or e.Tool == nil or e.Tool.Parent ~= ch then
+				e.LastToolCheck = now
+				e.Tool = ch:FindFirstChildOfClass("Tool")
+			end
+			table.insert(lines, e.Tool and e.Tool.Name or "None")
 		end
 		if #lines > 0 then
 			e.Info.Position = UDim2.fromOffset(x, topY + h + 2)
@@ -957,7 +1378,7 @@ local function LaunchHub(skinName)
 		else
 			e.Dot.Visible = false
 		end
-		if S.ShowSkeleton then
+		if S.ShowSkeleton and heavy then
 			local bones = hum.RigType == Enum.HumanoidRigType.R15 and R15Bones or R6Bones
 			for i, line in ipairs(e.Bones) do
 				local vis, pair = false, bones[i]
@@ -973,27 +1394,26 @@ local function LaunchHub(skinName)
 				end
 				line.Visible = vis
 			end
-		else
+		elseif not S.ShowSkeleton then
 			for _, line in ipairs(e.Bones) do line.Visible = false end
 		end
 		e.Arrow.Visible = false
 	end
-	local function UpdateCham(player, e)
-		local ch = player.Character
-		if S.ChamsEnabled and ch ~= nil and IsEnemy(player, S.ESPTeamCheck) then
+	local function UpdateCham(entity, e)
+		local ch = e.Character or (e.IsBot and e.Entity or entity.Character)
+		if S.ChamsEnabled and ch ~= nil and EntryIsTargetable(entity, e, S.ESPTeamCheck, S.ESPIgnoreBots) then
 			if not e.Cham or e.Cham.Parent ~= ch then
 				if e.Cham then e.Cham:Destroy() end
 				e.Cham = New("Highlight", ch, {Name = "VortexCham", DepthMode = Enum.HighlightDepthMode.AlwaysOnTop, FillTransparency = 0.6, OutlineTransparency = 0})
 				e.ChamColor = nil
 			end
-			local color = Aim.Player == player and Theme.Accent or (ESPColors[S.ESPColor] or ESPColors.Red)
+			local color = Aim.Player == entity and Theme.Accent or (ESPColors[S.ESPColor] or ESPColors.Red)
 			if e.ChamColor ~= color then e.Cham.FillColor, e.Cham.OutlineColor, e.ChamColor = color, color, color end
 		elseif e.Cham then
 			e.Cham:Destroy(); e.Cham, e.ChamColor = nil, nil
 		end
 	end
 
-	---------------------------------------------------------- MOVEMENT
 	local CachedChar, CachedHum
 	local function GetHumanoid()
 		local ch = LocalPlayer.Character
@@ -1056,7 +1476,6 @@ local function LaunchHub(skinName)
 		if flat.Magnitude > 0.01 then Fly.Align.CFrame = CFrame.lookAt(root.Position, root.Position + flat) end
 	end
 
-	---------------------------------------------------------- WORLD
 	for _, c in ipairs(Lighting:GetChildren()) do
 		if string.sub(c.Name, 1, 6) == "Vortex" then c:Destroy() end
 	end
@@ -1090,6 +1509,11 @@ local function LaunchHub(skinName)
 		Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0.3), NumberSequenceKeypoint.new(1,0.5)}), Lifetime = NumberRange.new(0.6,0.8),
 		Speed = NumberRange.new(60,80), EmissionDirection = Enum.NormalId.Bottom, SpreadAngle = Vector2.new(2,2), Orientation = Enum.ParticleOrientation.VelocityParallel,
 		Acceleration = Vector3.new(0,-30,0), Rate = 0})
+	local AshEmitter = New("ParticleEmitter", WeatherPart, {Name = "VortexAsh", Color = ColorSequence.new(Color3.fromRGB(120,100,90), Color3.fromRGB(70,60,55)),
+		Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0.15), NumberSequenceKeypoint.new(1,0.05)}),
+		Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0.2), NumberSequenceKeypoint.new(1,0.8)}), Lifetime = NumberRange.new(6,10),
+		Speed = NumberRange.new(1,3), EmissionDirection = Enum.NormalId.Bottom, SpreadAngle = Vector2.new(35,35), Rotation = NumberRange.new(0,360),
+		RotSpeed = NumberRange.new(-20,20), Acceleration = Vector3.new(0,-1,0), LightEmission = 0.15, Rate = 0})
 
 	local Vignette = {}
 	for _, d in ipairs({{UDim2.fromScale(0,0), UDim2.new(1,0,0.3,0), 90}, {UDim2.fromScale(0,0.7), UDim2.new(1,0,0.3,0), -90},
@@ -1109,7 +1533,6 @@ local function LaunchHub(skinName)
 		end)
 	end
 
-	-- Ovr: one registry for every property override, so features never fight over saved originals.
 	local Saved = {}
 	local function Ovr(id, on, save, apply, restore)
 		local e = Saved[id]
@@ -1126,8 +1549,10 @@ local function LaunchHub(skinName)
 		WeatherPart.CFrame = CFrame.new(Camera.CFrame.Position + Vector3.new(0, 35, 0))
 		SnowEmitter.Rate = S.SnowEnabled and S.SnowIntensity * 3 or 0
 		RainEmitter.Rate = S.RainEnabled and S.RainIntensity * 6 or 0
+		AshEmitter.Rate = S.AshEnabled and S.AshIntensity or 0
 		SnowEmitter.Acceleration = Vector3.new(S.WindStrength, -2, S.WindStrength * 0.4)
 		RainEmitter.Acceleration = Vector3.new(S.WindStrength * 2, -30, S.WindStrength * 0.6)
+		AshEmitter.Acceleration = Vector3.new(S.WindStrength * 0.5, -1, S.WindStrength * 0.25)
 
 		Ovr("fog", S.FogEnabled or S.FullBrightEnabled, function() return {Lighting.FogStart, Lighting.FogEnd, Lighting.FogColor} end,
 			function()
@@ -1143,10 +1568,13 @@ local function LaunchHub(skinName)
 		end
 		FX.Bloom.Enabled = S.GlowEnabled
 		FX.Bloom.Intensity = S.GlowIntensity * 3
+		FX.Bloom.Size = S.GlowSize
 		FX.Grade.Enabled = S.ColorGradeEnabled
 		if S.ColorGradeEnabled then
 			FX.Grade.Saturation = S.ColorSaturation
-			FX.Grade.TintColor = WorldTintColors[S.ColorTintName] or Color3.fromRGB(255,255,255)
+			FX.Grade.Contrast = S.ColorContrast
+			FX.Grade.Brightness = S.ColorBrightness
+			FX.Grade.TintColor = TintColor(S.ColorTintName)
 		end
 		local vis = VisionPresets[S.VisionMode]
 		FX.Vision.Enabled = vis ~= nil
@@ -1154,7 +1582,7 @@ local function LaunchHub(skinName)
 			FX.Vision.Saturation, FX.Vision.Contrast, FX.Vision.Brightness, FX.Vision.TintColor = vis.Saturation, vis.Contrast, vis.Brightness, vis.Tint
 		end
 		FX.Rays.Enabled, FX.Rays.Intensity, FX.Rays.Spread = S.SunRaysEnabled, S.SunRaysIntensity, S.SunRaysSpread
-		FX.Depth.Enabled, FX.Depth.FocusDistance, FX.Depth.FarIntensity, FX.Depth.InFocusRadius = S.DOFEnabled, S.DOFFocus, S.DOFFar, S.DOFRadius
+		FX.Depth.Enabled, FX.Depth.FocusDistance, FX.Depth.FarIntensity, FX.Depth.NearIntensity, FX.Depth.InFocusRadius = S.DOFEnabled, S.DOFFocus, S.DOFFar, S.DOFNear, S.DOFRadius
 		FX.Blur.Enabled, FX.Blur.Size = S.BlurEnabled, S.BlurSize
 		for _, f in ipairs(Vignette) do
 			f.Visible = S.VignetteEnabled
@@ -1188,7 +1616,7 @@ local function LaunchHub(skinName)
 		Ovr("shadows", S.NoShadowsEnabled or S.FullBrightEnabled, function() return {Lighting.GlobalShadows} end,
 			function() Lighting.GlobalShadows = false end, function(v) Lighting.GlobalShadows = v[1] end)
 
-		Ovr("amb", S.FullBrightEnabled or S.RainbowEnabled, function()
+		Ovr("amb", S.FullBrightEnabled or S.RainbowEnabled or S.AmbientEnabled, function()
 				return {Lighting.Brightness, Lighting.Ambient, Lighting.OutdoorAmbient, Lighting.ColorShift_Top, Lighting.ColorShift_Bottom}
 			end,
 			function()
@@ -1204,10 +1632,18 @@ local function LaunchHub(skinName)
 						Lighting.Ambient, Lighting.OutdoorAmbient = Color3.fromHSV(hue, 0.45, 0.7), Color3.fromHSV(hue, 0.45, 0.7)
 					end
 				end
+				if S.AmbientEnabled and not S.FullBrightEnabled and not S.RainbowEnabled then
+					local col = TintColor(S.AmbientColorName)
+					local mixed = col:Lerp(Color3.fromRGB(128,128,128), 1 - S.AmbientIntensity)
+					Lighting.Ambient, Lighting.OutdoorAmbient = mixed, mixed
+				end
 			end,
 			function(v)
 				Lighting.Brightness, Lighting.Ambient, Lighting.OutdoorAmbient, Lighting.ColorShift_Top, Lighting.ColorShift_Bottom = v[1], v[2], v[3], v[4], v[5]
 			end)
+
+		Ovr("stars", S.StarsEnabled, function() return {Lighting.StarCount} end,
+			function() Lighting.StarCount = S.StarCount end, function(v) Lighting.StarCount = v[1] end)
 
 		Ovr("exposure", S.ExposureEnabled, function() return {Lighting.ExposureCompensation} end,
 			function() Lighting.ExposureCompensation = S.Exposure end, function(v) Lighting.ExposureCompensation = v[1] end)
@@ -1242,7 +1678,6 @@ local function LaunchHub(skinName)
 		WeatherPart:Destroy()
 	end
 
-	---------------------------------------------------------- OVERLAY / CROSSHAIR / HITS
 	local FovFrame = Round(New("Frame", Overlay, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(300,300),
 		BackgroundTransparency = 1, BorderSizePixel = 0, Visible = false}), 100)
 	New("UIStroke", FovFrame, {Color = "@Accent", Thickness = 1.5, Transparency = 0.35})
@@ -1290,28 +1725,147 @@ local function LaunchHub(skinName)
 		Cross.Holder.Rotation = S.CrosshairSpin and (Cross.Holder.Rotation + 120 * dt) % 360 or 0
 	end
 
-	local Hit = {Lines = {}}
-	Hit.Holder = New("Frame", Overlay, {Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(0,0), BackgroundTransparency = 1, ZIndex = 8})
+	local Hit = {Lines = {}, Sparks = {}, Branches = {}, Token = 0}
+	Hit.Holder = New("Frame", Overlay, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(0,0), BackgroundTransparency = 1, ZIndex = 8})
 	Hit.Scale = New("UIScale", Hit.Holder, {Scale = 1})
-	for _, d in ipairs({{-9,-9,45}, {9,-9,-45}, {-9,9,-45}, {9,9,45}}) do
-		table.insert(Hit.Lines, New("Frame", Hit.Holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromOffset(d[1], d[2]), Size = UDim2.fromOffset(9,2),
-			Rotation = d[3], BorderSizePixel = 0, BackgroundColor3 = Color3.new(1,1,1), BackgroundTransparency = 1, ZIndex = 8}))
+	Hit.Ring = Round(New("Frame", Hit.Holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromOffset(0,0), Size = UDim2.fromOffset(18,18), BackgroundTransparency = 1, Visible = false, ZIndex = 8}), 100)
+	Hit.RingStroke = New("UIStroke", Hit.Ring, {Thickness = 2, Transparency = 1, Color = Color3.new(1,1,1)})
+	Hit.Text = New("TextLabel", Hit.Holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromOffset(0,0), Size = UDim2.fromOffset(90,36), BackgroundTransparency = 1, Text = "", Visible = false, TextColor3 = Color3.new(1,1,1), TextStrokeTransparency = 0.25, Font = GOTHB, TextSize = 24, ZIndex = 9})
+	for i = 1, 8 do
+		local line = New("Frame", Hit.Holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromOffset(0,0), Size = UDim2.fromOffset(12,2), Rotation = 0, BorderSizePixel = 0, BackgroundColor3 = Color3.new(1,1,1), BackgroundTransparency = 1, Visible = false, ZIndex = 8})
+		Hit.Lines[i] = line
+	end
+	for i = 1, 12 do
+		Hit.Sparks[i] = New("Frame", Hit.Holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromOffset(0,0), Size = UDim2.fromOffset(3,3), BorderSizePixel = 0, BackgroundColor3 = Color3.new(1,1,1), BackgroundTransparency = 1, Visible = false, ZIndex = 9})
+	end
+	for i = 1, 6 do
+		Hit.Branches[i] = New("Frame", Hit.Holder, {AnchorPoint = Vector2.new(0,0.5), Position = UDim2.fromOffset(0,0), Size = UDim2.fromOffset(30,2), Rotation = 0, BorderSizePixel = 0, BackgroundColor3 = Color3.new(1,1,1), BackgroundTransparency = 1, Visible = false, ZIndex = 9})
 	end
 	Hit.Sound = New("Sound", Overlay, {SoundId = "rbxasset://sounds/electronicpingshort.wav", Volume = 0.5})
-	function Hit.Show(kill)
-		local color = kill and Color3.fromRGB(255,70,80) or Color3.new(1,1,1)
-		Hit.Scale.Scale = 1.5
-		Tween(Hit.Scale, {Scale = 1}, 0.2)
-		for _, line in ipairs(Hit.Lines) do
-			line.BackgroundColor3, line.BackgroundTransparency = color, 0
-			Tween(line, {BackgroundTransparency = 1}, 0.45, Enum.EasingStyle.Quad)
+
+	local function HitHideAll()
+		Hit.Ring.Visible = false
+		Hit.RingStroke.Transparency = 1
+		Hit.Text.Visible = false
+		for _, line in ipairs(Hit.Lines) do line.Visible = false end
+		for _, f in ipairs(Hit.Sparks) do f.Visible = false end
+		for _, f in ipairs(Hit.Branches) do f.Visible = false end
+	end
+
+	local function HitLine(line, angle, length, thickness, color, duration, startRadius)
+		line.Visible = true
+		line.BackgroundColor3 = color
+		line.BackgroundTransparency = 0
+		line.Rotation = angle
+		line.Size = UDim2.fromOffset(length, thickness)
+		local rad = math.rad(angle)
+		line.Position = UDim2.fromOffset(math.cos(rad) * startRadius, math.sin(rad) * startRadius)
+		Tween(line, {Position = UDim2.fromOffset(math.cos(rad) * (startRadius + length * 0.55), math.sin(rad) * (startRadius + length * 0.55)), BackgroundTransparency = 1}, duration, Enum.EasingStyle.Quad)
+	end
+
+	local function ShowHitStyle(style, color, size, duration)
+		local len = 10 * size
+		local th = math.max(2, math.floor(2 * size + 0.5))
+		if style == "Cross" then
+			for i, a in ipairs({45,135,225,315}) do HitLine(Hit.Lines[i], a, len, th, color, duration, 8 * size) end
+		elseif style == "X" then
+			for i, a in ipairs({45,135}) do HitLine(Hit.Lines[i], a, len * 1.15, th, color, duration, 8 * size) end
+		elseif style == "Plus" then
+			for i, a in ipairs({0,90,180,270}) do HitLine(Hit.Lines[i], a, len, th, color, duration, 8 * size) end
+		elseif style == "Circle" then
+			Hit.Ring.Visible = true; Hit.Ring.Size = UDim2.fromOffset(14 * size,14 * size); Hit.RingStroke.Color = color; Hit.RingStroke.Transparency = 0
+			Tween(Hit.RingStroke, {Transparency = 1}, duration, Enum.EasingStyle.Quad)
+			Tween(Hit.Ring, {Size = UDim2.fromOffset(42 * size,42 * size)}, duration, Enum.EasingStyle.Quad)
+		elseif style == "Diamond" then
+			for i, a in ipairs({45,135,225,315}) do HitLine(Hit.Lines[i], a, len * 0.75, th, color, duration, 0) end
+		elseif style == "Star" then
+			for i, a in ipairs({0,45,90,135,180,225,270,315}) do HitLine(Hit.Lines[i], a, len * 0.85, math.max(1, th - 1), color, duration, 5 * size) end
+		elseif style == "Brackets" then
+			local data = {{-1,-1,0},{-1,-1,90},{1,-1,180},{1,-1,90},{-1,1,270},{-1,1,0},{1,1,90},{1,1,180}}
+			for i, d in ipairs(data) do HitLine(Hit.Lines[i], d[3], len * 0.75, th, color, duration, 10 * size) end
+		elseif style == "Dot" then
+			Hit.Text.Visible = true; Hit.Text.Text = "."; Hit.Text.TextSize = math.max(18, math.floor(26 * size)); Hit.Text.TextColor3 = color
+			Tween(Hit.Text, {TextTransparency = 1}, duration, Enum.EasingStyle.Quad)
+		elseif style == "Hit" then
+			Hit.Text.Visible = true; Hit.Text.Text = "HIT"; Hit.Text.TextSize = math.max(14, math.floor(22 * size)); Hit.Text.TextColor3 = color
+			Tween(Hit.Text, {TextTransparency = 1, Size = UDim2.fromOffset(110 * size, 48 * size)}, duration, Enum.EasingStyle.Back)
+		elseif style == "Skull" then
+			Hit.Text.Visible = true; Hit.Text.Text = "X"; Hit.Text.TextSize = math.max(20, math.floor(30 * size)); Hit.Text.TextColor3 = color
+			Tween(Hit.Text, {TextTransparency = 1}, duration, Enum.EasingStyle.Quad)
+		elseif style == "Lightning" then
+			for i, a in ipairs({-62,-31,0,31,62}) do HitLine(Hit.Lines[i], a - 90, len * 0.9, math.max(1, th - 1), color, duration, 8 * size) end
 		end
+	end
+
+	local function ShowExplosion(color, size, duration)
+		for i = 1, #Hit.Sparks do
+			local f = Hit.Sparks[i]
+			local a = (i - 1) * (360 / #Hit.Sparks) + math.random(-14,14)
+			local rad = math.rad(a)
+			f.Position = UDim2.fromOffset(math.cos(rad) * 5, math.sin(rad) * 5)
+			f.Size = UDim2.fromOffset(math.max(2, 4 * size), math.max(2, 4 * size))
+			f.BackgroundColor3 = color
+			f.BackgroundTransparency = 0
+			f.Visible = true
+			Tween(f, {Position = UDim2.fromOffset(math.cos(rad) * 40 * size, math.sin(rad) * 40 * size), BackgroundTransparency = 1, Size = UDim2.fromOffset(1,1)}, duration, Enum.EasingStyle.Quad)
+		end
+		Hit.Ring.Visible = true; Hit.Ring.Size = UDim2.fromOffset(8 * size,8 * size); Hit.RingStroke.Color = color; Hit.RingStroke.Transparency = 0
+		Tween(Hit.Ring, {Size = UDim2.fromOffset(70 * size,70 * size)}, duration, Enum.EasingStyle.Quint)
+		Tween(Hit.RingStroke, {Transparency = 1}, duration, Enum.EasingStyle.Quad)
+	end
+
+	local function ShowLightning(color, size, duration)
+		for i = 1, #Hit.Branches do
+			local f = Hit.Branches[i]
+			local a = -75 + (i - 1) * 30 + math.random(-6,6)
+			local rad = math.rad(a)
+			f.Position = UDim2.fromOffset(0,0)
+			f.Size = UDim2.fromOffset(24 * size, math.max(1, 2 * size))
+			f.Rotation = a
+			f.BackgroundColor3 = color
+			f.BackgroundTransparency = 0
+			f.Visible = true
+			Tween(f, {Position = UDim2.fromOffset(math.cos(rad) * 24 * size, math.sin(rad) * 24 * size), BackgroundTransparency = 1}, duration, Enum.EasingStyle.Quad)
+		end
+		Hit.Text.Visible = true; Hit.Text.Text = "!"; Hit.Text.TextSize = math.max(22, math.floor(30 * size)); Hit.Text.TextColor3 = color
+		Tween(Hit.Text, {TextTransparency = 1, Position = UDim2.fromOffset(0,-10 * size)}, duration, Enum.EasingStyle.Quad)
+	end
+
+	function Hit.Show(kill)
+		Hit.Token += 1
+		local token = Hit.Token
+		HitHideAll()
+		local color = kill and Color3.fromRGB(255,70,80) or Color3.new(1,1,1)
+		local style = S.HitMarkerStyle or "Cross"
+		local size = math.clamp(tonumber(S.HitMarkerSize) or 1, 0.5, 2.5)
+		local duration = math.clamp(tonumber(S.HitMarkerLifetime) or 0.45, 0.12, 1.2)
+		Hit.Scale.Scale = 1.45 * size
+		Tween(Hit.Scale, {Scale = size}, 0.18, Enum.EasingStyle.Back)
+		ShowHitStyle(style, color, size, duration)
+
+		local effect = S.HitEffect or "Pulse"
+		if effect == "Pulse" or effect == "Pulse+Explosion" or effect == "Pulse+Lightning" or effect == "All" then
+			Hit.Ring.Visible = true; Hit.Ring.Size = UDim2.fromOffset(10 * size,10 * size); Hit.RingStroke.Color = color; Hit.RingStroke.Transparency = 0
+			Tween(Hit.Ring, {Size = UDim2.fromOffset(52 * size,52 * size)}, duration, Enum.EasingStyle.Quint)
+			Tween(Hit.RingStroke, {Transparency = 1}, duration, Enum.EasingStyle.Quad)
+		end
+		if effect == "Explosion" or effect == "Pulse+Explosion" or effect == "Explosion+Lightning" or effect == "All" or style == "Hit" and kill then
+			ShowExplosion(color, size, duration)
+		end
+		if effect == "Lightning" or effect == "Pulse+Lightning" or effect == "Explosion+Lightning" or effect == "All" or style == "Lightning" then
+			ShowLightning(color, size, duration)
+		end
+
 		if S.HitSoundEnabled then
 			pcall(function() Hit.Sound.PlaybackSpeed = kill and 1.5 or 1.1; Hit.Sound:Play() end)
 		end
+		task.delay(duration + 0.05, function()
+			if token == Hit.Token then HitHideAll() end
+		end)
 	end
-	local function TrackHits(player, e, firing)
-		if not IsEnemy(player, true) then e.LastHealth = nil; return end
+
+	local function TrackHits(entity, e, firing)
+		if not EntryIsTargetable(entity, e, true, false) then e.LastHealth = nil; return end
 		local alive = e.Refresh()
 		local hum = e.Humanoid
 		if not hum then e.LastHealth = nil; return end
@@ -1319,10 +1873,15 @@ local function LaunchHub(skinName)
 		if e.LastHealth and hp < e.LastHealth - 0.01 and firing then Hit.Show(hp <= 0) end
 		e.LastHealth = alive and hp or nil
 	end
+	local OverlayRuntime = {
+		EntryBudget = 0,
+		Cursor = 1,
+	}
 	local function UpdateOverlay(dt)
 		local vp = Camera.ViewportSize
 		FovFrame.Size = UDim2.fromOffset(S.FOVRadius * 2, S.FOVRadius * 2)
 		FovFrame.Visible = S.ShowFOV and S.AimbotEnabled
+
 		local tv = S.ShowTriggerFOV and S.TriggerEnabled
 		TriggerFovFrame.Visible = tv
 		if tv then
@@ -1330,18 +1889,39 @@ local function LaunchHub(skinName)
 			TriggerFovFrame.Size = UDim2.fromOffset(sz, sz)
 			TriggerFovStroke.Color = Trigger.Player and ESPColors.Red or Theme.Accent
 		end
+
 		if S.ShowTargetLine and S.AimbotEnabled and Aim.Position then
 			local sc, on = Camera:WorldToViewportPoint(Aim.Position)
-			if on then DrawLine(TargetLine, Vector2.new(vp.X / 2, vp.Y / 2), Vector2.new(sc.X, sc.Y), Theme.Accent, 1.5) else TargetLine.Visible = false end
+			if on then
+				DrawLine(TargetLine, Vector2.new(vp.X * 0.5, vp.Y * 0.5), Vector2.new(sc.X, sc.Y), Theme.Accent, 1.5)
+			else
+				TargetLine.Visible = false
+			end
 		else
 			TargetLine.Visible = false
 		end
-		local firing = os.clock() - Combat.LastFire < 0.35 or UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
-		for player, e in pairs(Entries) do
-			UpdateEntry(player, e)
-			if S.ChamsEnabled or e.Cham then UpdateCham(player, e) end
-			if S.HitMarkerEnabled then TrackHits(player, e, firing) else e.LastHealth = nil end
+
+		local count = #EntryOrder
+		if count > 0 then
+			local now = os.clock()
+			local firing = (now - Combat.LastFire < 0.35) or UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton1)
+			for i = 1, count do
+				local entity = EntryOrder[i]
+				local e = entity and Entries[entity]
+				if e and e.Folder.Parent then
+					UpdateEntry(entity, e, S.ShowSkeleton)
+					if S.ChamsEnabled or e.Cham then UpdateCham(entity, e) end
+					if S.HitMarkerEnabled then
+						TrackHits(entity, e, firing)
+					else
+						e.LastHealth = nil
+					end
+				end
+			end
+		else
+			OverlayRuntime.Cursor = 1
 		end
+
 		UpdateCrosshair(dt)
 		HudFrame.Visible = S.HUDEnabled
 		if S.HUDEnabled then
@@ -1353,7 +1933,7 @@ local function LaunchHub(skinName)
 		end
 	end
 
-	---------------------------------------------------------- CONFIG / PRESETS / LOG ACTIONS
+
 	local function ApplyPreset(name)
 		if name == "None" then return end
 		for _, k in ipairs(WorldKeys) do SetValue(k, Defaults[k]) end
@@ -1378,6 +1958,7 @@ local function LaunchHub(skinName)
 		end
 		return table.concat(parts, ";") .. "||" .. table.concat(tp, ";")
 	end
+	local ClampTable = {}
 	local function DeserializeConfig(text)
 		local applied = 0
 		text = string.match(text, "^%s*(.-)%s*$") or text
@@ -1388,6 +1969,10 @@ local function LaunchHub(skinName)
 			if k and raw and S[k] ~= nil and k ~= "WorldPreset" then
 				local cur, nv = S[k], raw
 				if type(cur) == "boolean" then nv = raw == "1" elseif type(cur) == "number" then nv = tonumber(raw) end
+				if type(nv) == "number" then
+					local range = ClampTable[k]
+					if range then nv = math.clamp(nv, range.min, range.max) end
+				end
 				if nv ~= nil then SetValue(k, nv); applied += 1 end
 			end
 		end
@@ -1401,8 +1986,6 @@ local function LaunchHub(skinName)
 		return applied
 	end
 
-	-- ConfigIndex: name -> raw file content, rebuilt by RefreshConfigList/RefreshConfigIndex.
-	-- Powers the settings-tab preview line and lets LOAD work off the same in-memory map instead of re-reading disk each keystroke.
 	local ConfigListText = "-"
 	local ConfigIndex = {}
 	local function RefreshConfigList()
@@ -1443,7 +2026,6 @@ local function LaunchHub(skinName)
 		for _, l in ipairs(lines) do add(l.text, l.err and Color3.fromRGB(255,110,110) or Theme.SubText) end
 	end
 
-	---------------------------------------------------------- UI SPEC (one content list, four skins)
 	local function Sec(l) return {t = "section", l = l} end
 	local function Tog(l, k) return {t = "toggle", l = l, k = k} end
 	local function Sld(l, k, mn, mx, d) return {t = "slider", l = l, k = k, min = mn, max = mx, dec = d} end
@@ -1477,18 +2059,18 @@ local function LaunchHub(skinName)
 	local function Tab(key, loc, items) table.insert(Spec, {Key = key, Locale = loc, Items = items}) end
 
 	Tab("AIMBOT", "TAB_AIMBOT", {
-		Sec("SEC_AIMBOT"), Tog("OPT_AIMBOT","AimbotEnabled"), Tog("OPT_HOLD_RMB","AimHold"), Tog("OPT_TEAMCHECK","AimTeamCheck"), Tog("OPT_VISIBLECHECK","VisibleCheck"),
+		Sec("SEC_AIMBOT"), Tog("OPT_AIMBOT","AimbotEnabled"), Tog("OPT_HOLD_RMB","AimHold"), Tog("OPT_TEAMCHECK","AimTeamCheck"), Tog("OPT_IGNOREBOT","AimIgnoreBots"), Tog("OPT_VISIBLECHECK","VisibleCheck"),
 		Cho("OPT_AIMPART","AimPart",{"Head","Chest","Root"}), Sld("OPT_AIMSPEED","AimSpeed",1,60,0), Sld("OPT_FOVRADIUS","FOVRadius",20,500,0),
 		Sld("OPT_MAXDIST","MaxAimDistance",100,5000,0), Tog("OPT_PREDICTION","PredictionEnabled"), Sld("OPT_PREDICTIONTIME","PredictionTime",0.02,0.4,2),
 		Tog("OPT_SHOWFOV","ShowFOV"), Tog("OPT_TARGETLINE","ShowTargetLine"),
 		Sec("SEC_TRIGGER"), Tog("OPT_TRIGGERBOT","TriggerEnabled"), Sld("OPT_TRIGGERFOV","TriggerFOV",1,100,0), Tog("OPT_SHOWTRIGGERFOV","ShowTriggerFOV"),
-		Tog("OPT_HITBOX","TriggerHitbox"), Cho("OPT_TRIGGERPART","TriggerPart",{"Head","Body","Any"}), Tog("OPT_TEAMCHECK","TriggerTeamCheck"),
+		Tog("OPT_HITBOX","TriggerHitbox"), Cho("OPT_TRIGGERPART","TriggerPart",{"Head","Body","Any"}), Tog("OPT_TEAMCHECK","TriggerTeamCheck"), Tog("OPT_IGNOREBOT","TriggerIgnoreBots"),
 		Tog("OPT_WALLCHECK","TriggerWallCheck"), Tog("OPT_ONLYAIM","TriggerOnlyAim"), Sld("OPT_MAXDIST","TriggerMaxDistance",50,3000,0),
 		Sld("OPT_REACTDELAY","TriggerDelay",0,0.5,2), Sld("OPT_FIREINTERVAL","TriggerInterval",0.02,0.6,2), Tog("OPT_HUMANIZE","TriggerHumanize"),
 		Cho("OPT_CLICKMODE","TriggerClickMode",{"Auto","Tool"}),
 	})
 	Tab("VISUALS", "TAB_VISUALS", {
-		Sec("SEC_ESP"), Tog("OPT_ESP","ESPEnabled"), Tog("OPT_HIDETEAM","ESPTeamCheck"), Tog("OPT_BOXES","ShowBoxes"), Tog("OPT_CORNERBOXES","CornerBoxEnabled"),
+		Sec("SEC_ESP"), Tog("OPT_ESP","ESPEnabled"), Tog("OPT_HIDETEAM","ESPTeamCheck"), Tog("OPT_IGNOREBOT","ESPIgnoreBots"), Tog("OPT_BOXES","ShowBoxes"), Tog("OPT_CORNERBOXES","CornerBoxEnabled"),
 		Tog("OPT_NAMES","ShowNames"), Tog("OPT_DISTANCE","ShowDistance"), Tog("OPT_HEALTHBAR","ShowHealth"), Tog("OPT_SKELETON","ShowSkeleton"),
 		Tog("OPT_HEADDOT","ShowHeadDot"), Tog("OPT_WEAPON","ShowWeapon"), Tog("OPT_OFFSCREEN","ShowOffscreen"), Tog("OPT_CHAMS","ChamsEnabled"),
 		Tog("OPT_TRACERS","ShowTracers"), Cho("OPT_TRACERORIGIN","TracerOrigin",TracerOriginNames), Cho("OPT_ESPCOLOR","ESPColor",ESPColorNames),
@@ -1499,30 +2081,43 @@ local function LaunchHub(skinName)
 		Sld("OPT_JUMPVALUE","JumpValue",50,300,0), Tog("OPT_FLY","FlyEnabled"), Sld("OPT_FLYSPEED","FlySpeed",20,300,0), Tog("OPT_NOCLIP","NoclipEnabled"),
 		Tog("OPT_INFJUMP","InfJumpEnabled"),
 	})
-	Tab("WORLD", "TAB_WORLD", {
+	Tab("PRESETS", "TAB_PRESETS", {
 		Sec("SEC_PRESETS"), Cho("OPT_SCENEPRESET","WorldPreset",PresetNames),
+	})
+	Tab("RENDERING", "TAB_RENDERING", {
 		Sec("SEC_RENDERING"), Tog("OPT_FULLBRIGHT","FullBrightEnabled"), Tog("OPT_NOSHADOWS","NoShadowsEnabled"), Tog("OPT_EXPOSURE","ExposureEnabled"),
 		Sld("OPT_EXPOSUREVAL","Exposure",-3,3,1), Tog("OPT_HIDECLOUDS","HideCloudsEnabled"), Tog("OPT_GRAVITY","GravityEnabled"),
 		Sld("OPT_GRAVITYVAL","GravityValue",10,400,0), Tog("OPT_HUD","HUDEnabled"),
+		Sec("SEC_TIME"), Tog("OPT_FORCETIME","TimeOfDayEnabled"), Sld("OPT_TIMEOFDAY","TimeOfDay",0,24,1), Tog("OPT_TIMEFLOW","TimeFlowEnabled"),
+		Sld("OPT_FLOWSPEED","TimeFlowSpeed",0.02,3,2),
+		Sec("SEC_POSTFX"), Tog("OPT_GLOW","GlowEnabled"), Sld("OPT_GLOWINT","GlowIntensity",0,1,2), Sld("OPT_GLOWSIZE","GlowSize",1,56,0), Tog("OPT_COLORGRADE","ColorGradeEnabled"),
+		Sld("OPT_SATURATION","ColorSaturation",-1,1,2), Sld("OPT_CONTRAST","ColorContrast",-1,1,2), Sld("OPT_BRIGHTNESS","ColorBrightness",-1,1,2),
+		Cho("OPT_TINT","ColorTintName",WorldTintNames), Cho("OPT_VISIONMODE","VisionMode",VisionNames),
+		Tog("OPT_DOF","DOFEnabled"), Sld("OPT_FOCUSDIST","DOFFocus",5,500,0), Sld("OPT_BLURAMOUNT","DOFFar",0,1,2), Sld("OPT_NEARBLUR","DOFNear",0,1,2), Sld("OPT_FOCUSRADIUS","DOFRadius",5,200,0),
+		Tog("OPT_SCREENBLUR","BlurEnabled"), Sld("OPT_BLURSIZE","BlurSize",0,40,0), Tog("OPT_VIGNETTE","VignetteEnabled"), Sld("OPT_VIGNETTEINT","VignetteIntensity",0,1,2),
+		Sec("SEC_AMBIENT"), Tog("OPT_AMBIENT","AmbientEnabled"), Cho("OPT_AMBIENTCOLOR","AmbientColorName",WorldTintNames), Sld("OPT_AMBIENTINT","AmbientIntensity",0,1,2),
+		Sec("SEC_SKY"), Tog("OPT_STARS","StarsEnabled"), Sld("OPT_STARCOUNT","StarCount",500,10000,0),
+	})
+	Tab("CAMERA", "TAB_CAMERA", {
 		Sec("SEC_CAMERA"), Tog("OPT_CUSTOMFOV","CustomFOVEnabled"), Sld("OPT_CAMERAFOV","CameraFOV",30,120,0), Tog("OPT_HOLDZOOM","ZoomEnabled"),
 		Sld("OPT_ZOOMFOV","ZoomFOV",5,60,0), Tog("OPT_FREECAM","FreecamEnabled"), Sld("OPT_FREECAMSPEED","FreecamSpeed",10,300,0),
 		Tog("OPT_ZOOMLIMIT","ZoomLimitEnabled"), Sld("OPT_MAXZOOM","ZoomLimit",10,500,0),
+	})
+	Tab("WEATHER", "TAB_WEATHER", {
 		Sec("SEC_WEATHER"), Tog("OPT_SNOW","SnowEnabled"), Sld("OPT_SNOWDENSITY","SnowIntensity",5,150,0), Tog("OPT_RAIN","RainEnabled"),
 		Sld("OPT_RAINDENSITY","RainIntensity",5,200,0), Sld("OPT_WIND","WindStrength",0,30,0), Tog("OPT_FOG","FogEnabled"), Sld("OPT_FOGDIST","FogDensity",30,800,0),
 		Cho("OPT_FOGCOLOR","FogColorName",FogColorNames), Tog("OPT_LIGHTNING","LightningEnabled"), Sld("OPT_LIGHTNINGINT","LightningInterval",2,30,0),
 		Sec("SEC_ATMOSPHERE"), Tog("OPT_ATMOSPHERE","AtmosphereEnabled"), Sld("OPT_ATMODENSITY","AtmoDensity",0,1,2), Sld("OPT_ATMOHAZE","AtmoHaze",0,10,1),
 		Cho("OPT_ATMOCOLOR","AtmoColorName",FogColorNames), Tog("OPT_SUNRAYS","SunRaysEnabled"), Sld("OPT_RAYSINT","SunRaysIntensity",0,1,2),
 		Sld("OPT_RAYSSPREAD","SunRaysSpread",0,1,2), Tog("OPT_RAINBOW","RainbowEnabled"), Sld("OPT_RAINBOWSPEED","RainbowSpeed",0.02,1,2),
-		Sec("SEC_TIME"), Tog("OPT_FORCETIME","TimeOfDayEnabled"), Sld("OPT_TIMEOFDAY","TimeOfDay",0,24,1), Tog("OPT_TIMEFLOW","TimeFlowEnabled"),
-		Sld("OPT_FLOWSPEED","TimeFlowSpeed",0.02,3,2),
-		Sec("SEC_POSTFX"), Tog("OPT_GLOW","GlowEnabled"), Sld("OPT_GLOWINT","GlowIntensity",0,1,2), Tog("OPT_COLORGRADE","ColorGradeEnabled"),
-		Sld("OPT_SATURATION","ColorSaturation",-1,1,2), Cho("OPT_TINT","ColorTintName",WorldTintNames), Cho("OPT_VISIONMODE","VisionMode",VisionNames),
-		Tog("OPT_DOF","DOFEnabled"), Sld("OPT_FOCUSDIST","DOFFocus",5,500,0), Sld("OPT_BLURAMOUNT","DOFFar",0,1,2), Sld("OPT_FOCUSRADIUS","DOFRadius",5,200,0),
-		Tog("OPT_SCREENBLUR","BlurEnabled"), Sld("OPT_BLURSIZE","BlurSize",0,40,0), Tog("OPT_VIGNETTE","VignetteEnabled"), Sld("OPT_VIGNETTEINT","VignetteIntensity",0,1,2),
+		Sec("SEC_PARTICLES"), Tog("OPT_ASH","AshEnabled"), Sld("OPT_ASHINT","AshIntensity",5,150,0),
+	})
+	Tab("CROSSHAIR", "TAB_CROSSHAIR", {
 		Sec("SEC_CROSSHAIR"), Tog("OPT_CUSTOMCROSS","CrosshairEnabled"), Sld("OPT_CROSSSIZE","CrosshairSize",2,30,0), Sld("OPT_CROSSGAP","CrosshairGap",0,20,0),
 		Sld("OPT_CROSSTHICK","CrosshairThickness",1,6,0), Tog("OPT_CENTERDOT","CrosshairDot"), Cho("OPT_CROSSCOLOR","CrosshairColorName",CrosshairColorNames),
 		Tog("OPT_SPIN","CrosshairSpin"), Tog("OPT_DYNAMICGAP","CrosshairDynamic"), Tog("OPT_REDONTARGET","CrosshairReactive"),
 		Sec("SEC_HITFX"), Tog("OPT_HITMARKER","HitMarkerEnabled"), Tog("OPT_HITSOUND","HitSoundEnabled"),
+		Cho("OPT_HITSTYLE","HitMarkerStyle",HitMarkerStyles), Cho("OPT_HITEFFECT","HitEffect",HitEffects), Sld("OPT_HITSIZE","HitMarkerSize",0.5,2.5,1), Sld("OPT_HITTIME","HitMarkerLifetime",0.12,1.2,2),
 	})
 	Tab("PROFILE", "TAB_PROFILE", {
 		Sec("SEC_ACCOUNT"), Avt(),
@@ -1557,6 +2152,10 @@ local function LaunchHub(skinName)
 
 	local st = {
 		Sec("SEC_INTERFACE"),
+		Inf("LBL_ERRORSTATUS", function()
+			local _, errs = DebugLog.Report()
+			return errs > 0 and (tostring(errs) .. " errors logged") or "clean"
+		end),
 		ChoX("OPT_THEME", ThemeNames, function() return Prefs.Theme end, function(v) Prefs.Theme = v; ApplyTheme() end),
 		ChoX("OPT_ACCENT", AccentNames, function() return Prefs.Accent end, function(v) Prefs.Accent = v; ApplyTheme() end),
 		Sld("OPT_MENUSCALE", "UIScale", 0.7, 1.3, 2), Sld("OPT_MENUTRANSP", "UIOpacity", 0, 0.5, 2),
@@ -1607,7 +2206,18 @@ local function LaunchHub(skinName)
 	}) do table.insert(st, it) end
 	Tab("SETTINGS", "TAB_SETTINGS", st)
 
-	---------------------------------------------------------- SHARED WIDGET LOGIC
+	do
+		local function harvest(items)
+			for _, it in ipairs(items) do
+				if it.t == "slider" and it.k and it.min and it.max then
+					ClampTable[it.k] = {min = it.min, max = it.max}
+				end
+			end
+		end
+		for _, tab in ipairs(Spec) do harvest(tab.Items) end
+		harvest(st)
+	end
+
 	local function Lbl(parent, it, props)
 		props.BackgroundTransparency = 1
 		local t = New("TextLabel", parent, props)
@@ -1630,6 +2240,27 @@ local function LaunchHub(skinName)
 		Connect(btn.MouseButton1Click, function() step(1) end)
 		Connect(btn.MouseButton2Click, function() step(-1) end)
 		Watch(it.k, show, true)
+	end
+	local ColorSwatchKeys = {ESPColor = true, CrosshairColorName = true, ColorTintName = true, AmbientColorName = true, FogColorName = true, AtmoColorName = true}
+	local ColorSwatchLookup = {ESPColor = ESPColors, CrosshairColorName = ESPColors, ColorTintName = WorldTintColors, AmbientColorName = WorldTintColors,
+		FogColorName = WorldTintColors, AtmoColorName = WorldTintColors}
+	local function ResolveSwatchColor(key)
+		local name = S[key]
+		if name == nil then return nil end
+		if name == "Theme" then return Theme.Accent end
+		local table_ = ColorSwatchLookup[key]
+		if not table_ then return nil end
+		return table_[name]
+	end
+	local function AttachColorSwatch(it, parent, size)
+		if not it.k or not ColorSwatchKeys[it.k] then return nil end
+		local dot = Round(New("Frame", parent, {AnchorPoint = Vector2.new(1,0.5), Size = UDim2.fromOffset(size, size), BorderSizePixel = 0, ZIndex = 3}), 100)
+		New("UIStroke", dot, {Color = "@Border", Thickness = 1})
+		Watch(it.k, function()
+			local c = ResolveSwatchColor(it.k)
+			if c then dot.BackgroundColor3 = c; dot.Visible = true else dot.Visible = false end
+		end, true)
+		return dot
 	end
 	local function SliderLogic(it, hit, track, paint)
 		local get = it.get or function() return S[it.k] end
@@ -1682,7 +2313,9 @@ local function LaunchHub(skinName)
 	local function BuildTab(tab, page, C)
 		local ctx = {page = page, n = 0}
 		for _, it in ipairs(tab.Items) do C[it.t](it, ctx) end
+		if C.__finish then C.__finish(ctx) end
 	end
+
 	local function StandardShow(root, scale, state)
 		if state then
 			root.Visible = true
@@ -1705,7 +2338,6 @@ local function LaunchHub(skinName)
 		return box
 	end
 
-	---------------------------------------------------------- SKIN 1: CLASSIC (sidebar)
 	Skins.Classic = function()
 		local Root = New("CanvasGroup", MenuGui, {Name = "Main", AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(760,480),
 			BackgroundColor3 = "@Background", BorderSizePixel = 0, GroupTransparency = 1, Visible = false})
@@ -1733,9 +2365,10 @@ local function LaunchHub(skinName)
 
 		local Side = New("Frame", Root, {Position = UDim2.fromOffset(0,48), Size = UDim2.fromOffset(160,432), BackgroundColor3 = "@Secondary", BorderSizePixel = 0, ZIndex = 2})
 		New("Frame", Side, {Size = UDim2.new(0,1,1,0), Position = UDim2.new(1,-1,0,0), BackgroundColor3 = "@Border", BorderSizePixel = 0, ZIndex = 2})
-		local List = New("Frame", Side, {Size = UDim2.new(1,0,1,-30), BackgroundTransparency = 1})
+		local List = New("ScrollingFrame", Side, {Size = UDim2.new(1,0,1,-30), BackgroundTransparency = 1, BorderSizePixel = 0,
+			ScrollBarThickness = 3, ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
 		New("UIListLayout", List, {Padding = UDim.new(0,4), SortOrder = Enum.SortOrder.LayoutOrder})
-		New("UIPadding", List, {PaddingTop = UDim.new(0,8), PaddingLeft = UDim.new(0,8)})
+		New("UIPadding", List, {PaddingTop = UDim.new(0,8), PaddingLeft = UDim.new(0,8), PaddingRight = UDim.new(0,6)})
 		local hint = New("TextLabel", Side, {AnchorPoint = Vector2.new(0,1), Position = UDim2.new(0,14,1,-10), Size = UDim2.new(1,-28,0,14), BackgroundTransparency = 1,
 			TextColor3 = "@Muted", Font = GOTHM, TextSize = 9, TextXAlignment = LEFT, ZIndex = 4})
 		local function PaintHint() hint.Text = Locale.T("MENU_KEY") .. "  " .. KeyName(K.Menu) end
@@ -1757,7 +2390,9 @@ local function LaunchHub(skinName)
 		local C = {}
 		local function row(c, h, click)
 			c.n += 1
-			local r = New(click and "TextButton" or "Frame", c.page, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BorderSizePixel = 0, LayoutOrder = c.n})
+			local parent = c.group or c.page
+			local r = New(click and "TextButton" or "Frame", parent, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BorderSizePixel = 0, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
 			if click then r.Text = ""; r.AutoButtonColor = false end
 			Round(r, 8)
 			local s = New("UIStroke", r, {Color = "@Border", Thickness = 1, Transparency = 0.3})
@@ -1768,13 +2403,22 @@ local function LaunchHub(skinName)
 		local function rl(r, it, w) return Lbl(r, it, {Position = UDim2.fromOffset(14,0), Size = UDim2.new(1,w or -170,1,0), TextColor3 = "@Text", Font = GOTHM, TextSize = 12, TextXAlignment = LEFT}) end
 		function C.section(it, c)
 			c.n += 1
-			local h = New("Frame", c.page, {Size = UDim2.new(1,0,0,22), BackgroundTransparency = 1, LayoutOrder = c.n})
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,0,0,22), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
 			Round(New("Frame", h, {Size = UDim2.fromOffset(3,12), Position = UDim2.fromOffset(2,5), BackgroundColor3 = "@Accent", BorderSizePixel = 0}), 2)
-			Lbl(h, it, {Position = UDim2.fromOffset(12,0), Size = UDim2.new(1,-12,1,0), TextColor3 = "@SubText", Font = GOTHB, TextSize = 11, TextXAlignment = LEFT})
+			Lbl(h, it, {Position = UDim2.fromOffset(12,0), Size = UDim2.new(1,-28,1,0), TextColor3 = "@SubText", Font = GOTHB, TextSize = 11, TextXAlignment = LEFT})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-4,0.5,0), Size = UDim2.fromOffset(16,16), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Muted", Font = GOTHB, TextSize = 10})
+			c.n += 1
+			local group = New("Frame", c.page, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = c.n})
+			New("UIListLayout", group, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+			c.group, c.gn = group, 1
+			CollapseOnScroll(h, group, chevron)
 		end
 		function C.label(it, c)
 			c.n += 1
-			local h = New("Frame", c.page, {Size = UDim2.new(1,0,0,18), BackgroundTransparency = 1, LayoutOrder = c.n})
+			local parent = c.group or c.page
+			local h = New("Frame", parent, {Size = UDim2.new(1,0,0,18), BackgroundTransparency = 1, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
 			Lbl(h, it, {Position = UDim2.fromOffset(2,0), Size = UDim2.new(1,-4,1,0), TextColor3 = "@SubText", Font = GOTHM, TextSize = 11, TextXAlignment = LEFT})
 		end
 		function C.toggle(it, c)
@@ -1872,7 +2516,6 @@ local function LaunchHub(skinName)
 		}
 	end
 
-	---------------------------------------------------------- SKIN 2: WINDOWS (floating draggable collapsible panels)
 	Skins.Windows = function()
 		local Holder = New("Frame", MenuGui, {Name = "Main", Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, Visible = false})
 		local Wins = {}
@@ -1884,15 +2527,24 @@ local function LaunchHub(skinName)
 		local C = {}
 		local function row(c, h, click, color)
 			c.n += 1
-			local r = New(click and "TextButton" or "Frame", c.page, {Size = UDim2.new(1,-8,0,h), BackgroundColor3 = color or "@Row", BorderSizePixel = 0, LayoutOrder = c.n})
+			local parent = c.group or c.page
+			local r = New(click and "TextButton" or "Frame", parent, {Size = UDim2.new(1,-8,0,h), BackgroundColor3 = color or "@Row", BorderSizePixel = 0, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
 			if click then r.Text = ""; r.AutoButtonColor = false end
 			return Round(r, 5)
 		end
 		function C.section(it, c)
 			c.n += 1
-			local h = New("Frame", c.page, {Size = UDim2.new(1,-8,0,20), BackgroundTransparency = 1, LayoutOrder = c.n})
-			Lbl(h, it, P{Size = UDim2.new(1,0,1,-3), TextColor3 = "@Accent", Font = GOTHB, TextSize = 10})
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,-8,0,20), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
+			Lbl(h, it, P{Size = UDim2.new(1,-16,1,-3), TextColor3 = "@Accent", Font = GOTHB, TextSize = 10})
 			New("Frame", h, {Position = UDim2.new(0,0,1,-2), Size = UDim2.new(1,0,0,1), BackgroundColor3 = "@Border", BorderSizePixel = 0})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,0,0,-3), Size = UDim2.fromOffset(14,14), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Accent", Font = GOTHB, TextSize = 9})
+			c.n += 1
+			local group = New("Frame", c.page, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = c.n})
+			New("UIListLayout", group, {Padding = UDim.new(0,3), SortOrder = Enum.SortOrder.LayoutOrder})
+			c.group, c.gn = group, 1
+			CollapseOnScroll(h, group, chevron)
 		end
 		function C.label(it, c) local r = row(c, 18, false, "@Background"); Lbl(r, it, P{Size = UDim2.new(1,0,1,0), TextColor3 = "@SubText"}) end
 		function C.toggle(it, c)
@@ -1989,7 +2641,6 @@ local function LaunchHub(skinName)
 		}
 	end
 
-	---------------------------------------------------------- SKIN 3: DOCK (bottom pill + tile-grid panel)
 	Skins.Dock = function()
 		local Root = New("Frame", MenuGui, {Name = "Main", AnchorPoint = Vector2.new(0.5,1), Position = UDim2.new(0.5,0,1,-14), Size = UDim2.fromOffset(660,490), BackgroundTransparency = 1, Visible = false})
 		local Scale = New("UIScale", Root, {Scale = S.UIScale})
@@ -2044,6 +2695,7 @@ local function LaunchHub(skinName)
 			local r = New(click and "TextButton" or "Frame", c.page, {Size = size, BackgroundColor3 = color or "@Row", BorderSizePixel = 0, LayoutOrder = c.n})
 			if click then r.Text = ""; r.AutoButtonColor = false end
 			Round(r, 10)
+			if c.sectionTiles then table.insert(c.sectionTiles, r) end
 			return r
 		end
 		local function tl(r, it, props)
@@ -2051,16 +2703,41 @@ local function LaunchHub(skinName)
 			for k, v in pairs(props) do base[k] = v end
 			return Lbl(r, it, base)
 		end
-		function C.section(it, c)
-			c.n += 1
-			local h = New("Frame", c.page, {Size = UDim2.new(1,0,0,26), BackgroundTransparency = 1, LayoutOrder = c.n})
-			tl(h, it, {Size = UDim2.new(1,0,1,-6), TextColor3 = "@Accent", Font = GOTHB, TextSize = 11})
-			New("Frame", h, {Position = UDim2.new(0,0,1,-2), Size = UDim2.new(1,0,0,1), BackgroundColor3 = "@Border", BorderSizePixel = 0})
+		local function WireSection(c)
+			if not (c.sectionHeader and c.sectionTiles) then return end
+			local header, tiles, chevron = c.sectionHeader, c.sectionTiles, c.sectionChevron
+			local collapsed = false
+			local hovering = false
+			local function Paint()
+				for _, t in ipairs(tiles) do t.Visible = not collapsed end
+				if chevron then Tween(chevron, {Rotation = collapsed and -90 or 0}, 0.15) end
+			end
+			Connect(header.MouseEnter, function() hovering = true end)
+			Connect(header.MouseLeave, function() hovering = false end)
+			Connect(UserInputService.InputChanged, function(input)
+				if not hovering or input.UserInputType ~= Enum.UserInputType.MouseWheel then return end
+				local up = input.Position.Z > 0
+				if up and not collapsed then collapsed = true; Paint()
+				elseif (not up) and collapsed then collapsed = false; Paint() end
+			end)
+			c.sectionHeader, c.sectionChevron, c.sectionTiles = nil, nil, nil
 		end
+		function C.section(it, c)
+			WireSection(c)
+			c.n += 1
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,0,0,26), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
+			tl(h, it, {Size = UDim2.new(1,-20,1,-6), TextColor3 = "@Accent", Font = GOTHB, TextSize = 11})
+			New("Frame", h, {Position = UDim2.new(0,0,1,-2), Size = UDim2.new(1,0,0,1), BackgroundColor3 = "@Border", BorderSizePixel = 0})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-4,0,4), Size = UDim2.fromOffset(14,14), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Accent", Font = GOTHB, TextSize = 10})
+			c.sectionHeader, c.sectionChevron, c.sectionTiles = h, chevron, {}
+		end
+		C.__finish = WireSection
 		function C.label(it, c)
 			c.n += 1
 			local h = New("Frame", c.page, {Size = UDim2.new(1,0,0,18), BackgroundTransparency = 1, LayoutOrder = c.n})
 			tl(h, it, {Size = UDim2.fromScale(1,1), TextColor3 = "@SubText"})
+			if c.sectionTiles then table.insert(c.sectionTiles, h) end
 		end
 		function C.toggle(it, c)
 			local r = tile(c, 46, HALF, true)
@@ -2151,7 +2828,6 @@ local function LaunchHub(skinName)
 		}
 	end
 
-	---------------------------------------------------------- SKIN 4: TERMINAL (monospace console, square, text-only)
 	Skins.Terminal = function()
 		local Root = New("CanvasGroup", MenuGui, {Name = "Main", AnchorPoint = Vector2.new(0.5,0), Position = UDim2.new(0.5,0,0,24), Size = UDim2.fromOffset(820,470),
 			BackgroundColor3 = "@Background", BorderSizePixel = 0, GroupTransparency = 1, Visible = false})
@@ -2191,7 +2867,9 @@ local function LaunchHub(skinName)
 		local C = {}
 		local function row(c, h, click)
 			c.n += 1
-			local r = New(click and "TextButton" or "Frame", c.page, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BackgroundTransparency = 1, BorderSizePixel = 0, LayoutOrder = c.n})
+			local parent = c.group or c.page
+			local r = New(click and "TextButton" or "Frame", parent, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BackgroundTransparency = 1, BorderSizePixel = 0, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
 			if click then r.Text = ""; r.AutoButtonColor = false end
 			Connect(r.MouseEnter, function() Tween(r, {BackgroundTransparency = 0.55}, 0.1) end)
 			Connect(r.MouseLeave, function() Tween(r, {BackgroundTransparency = 1}, 0.1) end)
@@ -2208,13 +2886,22 @@ local function LaunchHub(skinName)
 		end
 		function C.section(it, c)
 			c.n += 1
-			local h = New("Frame", c.page, {Size = UDim2.new(1,0,0,22), BackgroundTransparency = 1, LayoutOrder = c.n})
-			tl(h, it, {Position = UDim2.fromOffset(10,4), Size = UDim2.new(1,-10,0,16), TextColor3 = "@Accent", TextSize = 12})
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,0,0,22), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
+			tl(h, it, {Position = UDim2.fromOffset(10,4), Size = UDim2.new(1,-26,0,16), TextColor3 = "@Accent", TextSize = 12})
 			New("Frame", h, {Position = UDim2.new(0,10,1,-1), Size = UDim2.new(1,-20,0,1), BackgroundColor3 = "@Border", BorderSizePixel = 0})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-10,0,4), Size = UDim2.fromOffset(14,14), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Accent", Font = CODE, TextSize = 11})
+			c.n += 1
+			local group = New("Frame", c.page, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = c.n})
+			New("UIListLayout", group, {Padding = UDim.new(0,1), SortOrder = Enum.SortOrder.LayoutOrder})
+			c.group, c.gn = group, 1
+			CollapseOnScroll(h, group, chevron)
 		end
 		function C.label(it, c)
 			c.n += 1
-			local h = New("Frame", c.page, {Size = UDim2.new(1,0,0,18), BackgroundTransparency = 1, LayoutOrder = c.n})
+			local parent = c.group or c.page
+			local h = New("Frame", parent, {Size = UDim2.new(1,0,0,18), BackgroundTransparency = 1, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
 			tl(h, it, {Position = UDim2.fromOffset(10,0), Size = UDim2.new(1,-20,1,0), TextColor3 = "@SubText", TextSize = 11})
 		end
 		function C.toggle(it, c)
@@ -2300,7 +2987,521 @@ local function LaunchHub(skinName)
 		}
 	end
 
-	---------------------------------------------------------- UNLOAD
+	Skins.Notch = function()
+		local Root = New("Frame", MenuGui, {Name = "Main", AnchorPoint = Vector2.new(0.5,0), Position = UDim2.new(0.5,0,0,10), Size = UDim2.fromOffset(560,400), BackgroundTransparency = 1, Visible = false})
+		local Scale = New("UIScale", Root, {Scale = 0.92})
+		local Pill = Round(New("CanvasGroup", Root, {AnchorPoint = Vector2.new(0.5,0), Position = UDim2.fromScale(0.5,0), Size = UDim2.fromOffset(0,40),
+			AutomaticSize = Enum.AutomaticSize.X, BackgroundColor3 = "@Background", BorderSizePixel = 0}), 20)
+		local glow = GlowStroke(Pill)
+		local PillList = New("Frame", Pill, {Size = UDim2.new(1,0,1,0), BackgroundTransparency = 1, AutomaticSize = Enum.AutomaticSize.X})
+		New("UIListLayout", PillList, {FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0,4), VerticalAlignment = Enum.VerticalAlignment.Center, SortOrder = Enum.SortOrder.LayoutOrder})
+		New("UIPadding", PillList, {PaddingLeft = UDim.new(0,10), PaddingRight = UDim.new(0,10)})
+		Locale.Bind(New("TextLabel", PillList, {Size = UDim2.fromOffset(60,40), BackgroundTransparency = 1, TextColor3 = "@Text", Font = GOTHB, TextSize = 12, TextXAlignment = LEFT, LayoutOrder = 0}), "APP_NAME")
+		local closeBtn = Round(New("TextButton", PillList, {Size = UDim2.fromOffset(24,24), BackgroundColor3 = "@Row", Text = "X", TextColor3 = Color3.fromRGB(255,90,100),
+			Font = GOTHB, TextSize = 11, AutoButtonColor = false, BorderSizePixel = 0, LayoutOrder = 1000}), 12)
+		Connect(closeBtn.MouseButton1Click, function() DebugLog.Push("system", "close pressed, unloading"); Unload() end)
+		Draggable(Pill, Root)
+
+		local Sheet = Round(New("CanvasGroup", Root, {AnchorPoint = Vector2.new(0.5,0), Position = UDim2.new(0.5,0,0,46), Size = UDim2.fromOffset(520,0),
+			BackgroundColor3 = "@Secondary", BorderSizePixel = 0, ClipsDescendants = true, Visible = false, GroupTransparency = 1}), 16)
+		New("UIStroke", Sheet, {Color = "@Border", Thickness = 1})
+		local SheetHead = New("Frame", Sheet, {Size = UDim2.new(1,0,0,30), BackgroundTransparency = 1})
+		local sheetTitle = New("TextLabel", SheetHead, {Position = UDim2.fromOffset(12,0), Size = UDim2.new(1,-40,1,0), BackgroundTransparency = 1, TextColor3 = "@Accent", Font = GOTHB, TextSize = 12, TextXAlignment = LEFT})
+		local Page = New("ScrollingFrame", Sheet, {Position = UDim2.fromOffset(10,32), Size = UDim2.new(1,-20,1,-40), BackgroundTransparency = 1, BorderSizePixel = 0,
+			ScrollBarThickness = 3, ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
+		New("UIListLayout", Page, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+		New("UIPadding", Page, {PaddingBottom = UDim.new(0,10), PaddingRight = UDim.new(0,4)})
+
+		local Pages, Btns, Active, Open = {}, {}, nil, false
+		local function CloseSheet()
+			Open = false
+			Tween(Sheet, {Size = UDim2.fromOffset(520,0), GroupTransparency = 1}, 0.18)
+			task.delay(0.19, function() if not Open then Sheet.Visible = false end end)
+		end
+		local function OpenSheet(name)
+			Active = name
+			for n, p in pairs(Pages) do p.Visible = n == name end
+			for n, b in pairs(Btns) do Tween(b.Bg, {BackgroundColor3 = n == name and Theme.Accent or Theme.Row}, 0.15) end
+			for _, t in ipairs(Spec) do if t.Key == name then sheetTitle.Text = Locale.T(t.Locale) end end
+			Sheet.Visible = true; Open = true
+			Tween(Sheet, {Size = UDim2.fromOffset(520,300), GroupTransparency = 0}, 0.2)
+		end
+		local function Toggle(name)
+			if Open and Active == name then CloseSheet() else OpenSheet(name) end
+		end
+		table.insert(Refreshers, function() if Open and Active then for _, t in ipairs(Spec) do if t.Key == Active then sheetTitle.Text = Locale.T(t.Locale) end end end end)
+
+		local C = {}
+		local function row(c, h, click)
+			c.n += 1
+			local parent = c.group or c.page
+			local r = New(click and "TextButton" or "Frame", parent, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BorderSizePixel = 0, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
+			if click then r.Text = ""; r.AutoButtonColor = false end
+			return Round(r, 8)
+		end
+		local function rl(r, it, w) return Lbl(r, it, {Position = UDim2.fromOffset(14,0), Size = UDim2.new(1,w or -170,1,0), TextColor3 = "@Text", Font = GOTHM, TextSize = 12, TextXAlignment = LEFT}) end
+		function C.section(it, c)
+			c.n += 1
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,0,0,20), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
+			Lbl(h, it, {Position = UDim2.fromOffset(2,0), Size = UDim2.new(1,-20,1,0), TextColor3 = "@Accent", Font = GOTHB, TextSize = 11, TextXAlignment = LEFT})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-2,0.5,0), Size = UDim2.fromOffset(14,14), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Muted", Font = GOTHB, TextSize = 9})
+			c.n += 1
+			local group = New("Frame", c.page, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = c.n})
+			New("UIListLayout", group, {Padding = UDim.new(0,6), SortOrder = Enum.SortOrder.LayoutOrder})
+			c.group, c.gn = group, 1
+			CollapseOnScroll(h, group, chevron)
+		end
+		function C.label(it, c)
+			c.n += 1
+			local parent = c.group or c.page
+			local h = New("Frame", parent, {Size = UDim2.new(1,0,0,16), BackgroundTransparency = 1, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
+			Lbl(h, it, {Size = UDim2.new(1,0,1,0), TextColor3 = "@SubText", Font = GOTHM, TextSize = 10, TextXAlignment = LEFT})
+		end
+		function C.toggle(it, c)
+			local r = row(c, 34, true); rl(r, it, -60)
+			local track = Round(New("Frame", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(32,17), BorderSizePixel = 0}), 100)
+			local knob = Round(New("Frame", track, {AnchorPoint = Vector2.new(0,0.5), Size = UDim2.fromOffset(12,12), BorderSizePixel = 0}), 100)
+			ToggleLogic(it, r, function(on)
+				Tween(track, {BackgroundColor3 = on and Theme.Accent or Theme.Background}, 0.15)
+				Tween(knob, {Position = on and UDim2.new(1,-14,0.5,0) or UDim2.new(0,3,0.5,0), BackgroundColor3 = on and Theme.Background or Theme.Muted}, 0.15)
+			end)
+		end
+		function C.slider(it, c)
+			local r = row(c, 46)
+			Lbl(r, it, {Position = UDim2.fromOffset(12,6), Size = UDim2.new(1,-90,0,14), TextColor3 = "@Text", Font = GOTHM, TextSize = 11, TextXAlignment = LEFT})
+			local val = New("TextLabel", r, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-12,0,6), Size = UDim2.fromOffset(70,14), BackgroundTransparency = 1, TextColor3 = "@SubText", Font = GOTHB, TextSize = 10, TextXAlignment = RIGHT})
+			local track = Round(New("Frame", r, {Position = UDim2.fromOffset(12,30), Size = UDim2.new(1,-24,0,4), BackgroundColor3 = "@Background", BorderSizePixel = 0}), 100)
+			local fill = Round(New("Frame", track, {Size = UDim2.fromScale(0,1), BackgroundColor3 = "@Accent", BorderSizePixel = 0}), 100)
+			SliderLogic(it, r, track, function(a, txt) Tween(fill, {Size = UDim2.fromScale(a,1)}, 0.08); val.Text = txt end)
+		end
+		local function sideBtn(r)
+			local b = Round(New("TextButton", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(110,22), BackgroundColor3 = "@Background",
+				Text = "", TextColor3 = "@Text", Font = GOTHB, TextSize = 10, AutoButtonColor = false, BorderSizePixel = 0}), 6)
+			return b
+		end
+		function C.choice(it, c)
+			local r = row(c, 34); rl(r, it); local b = sideBtn(r)
+			local sw = AttachColorSwatch(it, r, 14)
+			if sw then sw.Position = UDim2.new(1,-128,0.5,0) end
+			ChoiceLogic(it, b, function(t) b.Text = t end)
+		end
+		function C.bind(it, c)
+			local r = row(c, 34); rl(r, it); local b = sideBtn(r)
+			BindLogic(it, b, function(t) b.Text = t end)
+		end
+		function C.action(it, c)
+			local r = row(c, 32)
+			local b = Round(New("TextButton", r, {Position = UDim2.fromOffset(8,4), Size = UDim2.new(1,-16,1,-8), BackgroundColor3 = "@Accent", TextColor3 = "@Background",
+				Font = GOTHB, TextSize = 11, AutoButtonColor = false, BorderSizePixel = 0}), 6)
+			Locale.Bind(b, it.l)
+			Connect(b.MouseButton1Click, it.fn)
+		end
+		function C.input(it, c)
+			local r = row(c, it.h)
+			local box = Round(MakeInput(r, it, {Position = UDim2.fromOffset(10,6), Size = UDim2.new(1,-20,1,-12), BackgroundColor3 = "@Background", BorderSizePixel = 0}), 6)
+			New("UIPadding", box, {PaddingLeft = UDim.new(0,8), PaddingRight = UDim.new(0,8)})
+		end
+		function C.info(it, c)
+			local r = row(c, 32); rl(r, it, -220)
+			local v = New("TextLabel", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(200,18), BackgroundTransparency = 1,
+				TextColor3 = "@SubText", Font = GOTHB, TextSize = 11, TextXAlignment = RIGHT, TextTruncate = Enum.TextTruncate.AtEnd})
+			InfoReg(v, it)
+		end
+		function C.log(it, c)
+			local r = row(c, 240)
+			local s = New("ScrollingFrame", r, {Position = UDim2.fromOffset(8,8), Size = UDim2.new(1,-16,1,-16), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 2,
+				ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
+			New("UIListLayout", s, {Padding = UDim.new(0,1), SortOrder = Enum.SortOrder.LayoutOrder})
+			Widgets.log = s
+		end
+		function C.avatar(it, c)
+			local r = row(c, 64)
+			local img = MakeAvatar(r, 46); img.Position = UDim2.fromOffset(9,9)
+			New("TextLabel", r, {Position = UDim2.fromOffset(62,14), Size = UDim2.new(1,-70,0,18), BackgroundTransparency = 1, Text = LocalPlayer.Name, TextColor3 = "@Text", Font = GOTHB, TextSize = 13, TextXAlignment = LEFT})
+			New("TextLabel", r, {Position = UDim2.fromOffset(62,32), Size = UDim2.new(1,-70,0,14), BackgroundTransparency = 1, Text = "@" .. LocalPlayer.DisplayName, TextColor3 = "@SubText", Font = GOTHM, TextSize = 10, TextXAlignment = LEFT})
+		end
+
+		for i, tab in ipairs(Spec) do
+			local page = New("ScrollingFrame", Page, {Name = tab.Key, Size = UDim2.new(1,0,0,0), BackgroundTransparency = 1, BorderSizePixel = 0,
+				Visible = false, CanvasSize = UDim2.new(), AutomaticSize = Enum.AutomaticSize.Y, ScrollBarThickness = 0})
+			New("UIListLayout", page, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+			Pages[tab.Key] = page
+			local b = Round(New("TextButton", PillList, {Size = UDim2.fromOffset(30,30), BackgroundColor3 = "@Row", Text = "", AutoButtonColor = false, BorderSizePixel = 0, LayoutOrder = i}), 10)
+			local lab = New("TextLabel", b, {Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, TextColor3 = "@SubText", Font = GOTHB, TextSize = 9, TextXAlignment = CENTER, TextTruncate = Enum.TextTruncate.AtEnd})
+			lab.Text = tostring(i)
+			Btns[tab.Key] = {Bg = b}
+			Connect(b.MouseButton1Click, function() Toggle(tab.Key) end)
+			BuildTab(tab, page, C)
+		end
+
+		return {
+			Show = function(state)
+				if state then Root.Visible = true end
+				Tween(Scale, {Scale = state and S.UIScale or S.UIScale * 0.9}, 0.25, Enum.EasingStyle.Back)
+				Tween(Pill, {GroupTransparency = state and S.UIOpacity or 1}, 0.2)
+				if not state then CloseSheet(); task.delay(0.22, function() if not MenuState.Open and Root.Parent then Root.Visible = false end end) end
+			end,
+			Scale = function(v) Scale.Scale = v end,
+			Opacity = function(v) if MenuState.Open then Pill.GroupTransparency = v end end,
+			Destroy = function() glow:Cancel() end,
+		}
+	end
+
+	Skins.HUDStrip = function()
+		local Root = New("Frame", MenuGui, {Name = "Main", Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, Visible = false})
+		local Strip = Round(New("CanvasGroup", Root, {AnchorPoint = Vector2.new(0.5,1), Position = UDim2.new(0.5,0,1,-14), Size = UDim2.fromOffset(680,36),
+			BackgroundColor3 = "@Background", BorderSizePixel = 0, GroupTransparency = 1}), 10)
+		local glow = GlowStroke(Strip)
+		local StripScale = New("UIScale", Strip, {Scale = 0.95})
+		local List = New("Frame", Strip, {Size = UDim2.new(1,0,1,0), BackgroundTransparency = 1})
+		New("UIListLayout", List, {FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0,2), VerticalAlignment = Enum.VerticalAlignment.Center, SortOrder = Enum.SortOrder.LayoutOrder})
+		New("UIPadding", List, {PaddingLeft = UDim.new(0,10), PaddingRight = UDim.new(0,10)})
+		Draggable(Strip, Strip)
+
+		local function LiveField(w)
+			return New("TextLabel", List, {Size = UDim2.fromOffset(w,36), BackgroundTransparency = 1, TextColor3 = "@SubText", Font = CODE, TextSize = 11, TextXAlignment = LEFT})
+		end
+		local fpsF, pingF, aimF, trigF = LiveField(56), LiveField(70), LiveField(60), LiveField(64)
+		New("Frame", List, {Size = UDim2.fromOffset(1,18), BackgroundColor3 = "@Border", BorderSizePixel = 0})
+		local closeBtn = Round(New("TextButton", List, {Size = UDim2.fromOffset(24,24), BackgroundColor3 = "@Row", Text = "X", TextColor3 = Color3.fromRGB(255,90,100),
+			Font = GOTHB, TextSize = 11, AutoButtonColor = false, BorderSizePixel = 0, LayoutOrder = 1000}), 12)
+		Connect(closeBtn.MouseButton1Click, function() DebugLog.Push("system", "close pressed, unloading"); Unload() end)
+
+		local hudAccum, hudFrames = 0, 0
+		Connect(RunService.RenderStepped, function(dt)
+			if Unloaded or not Strip.Parent then return end
+			hudAccum += dt; hudFrames += 1
+			if hudAccum >= 0.25 then
+				fpsF.Text = "FPS " .. math.floor(hudFrames / hudAccum + 0.5)
+				hudAccum, hudFrames = 0, 0
+			end
+			local ok, v = pcall(function() return Stats.Network.ServerStatsItem["Data Ping"]:GetValue() end)
+			pingF.Text = "PING " .. (ok and math.floor(v) or 0)
+			aimF.Text = "AIM " .. (S.AimbotEnabled and (Aim.Player and "LOCK" or "ON") or "OFF")
+			aimF.TextColor3 = S.AimbotEnabled and (Aim.Player and Color3.fromRGB(255,90,100) or Theme.Accent) or Theme.Muted
+			trigF.Text = "TRG " .. (S.TriggerEnabled and (Trigger.Player and "LOCK" or "ON") or "OFF")
+			trigF.TextColor3 = S.TriggerEnabled and (Trigger.Player and Color3.fromRGB(255,90,100) or Theme.Accent) or Theme.Muted
+		end)
+
+		local Panel = Round(New("CanvasGroup", Root, {AnchorPoint = Vector2.new(0.5,1), Position = UDim2.new(0.5,0,1,-58), Size = UDim2.fromOffset(520,0),
+			BackgroundColor3 = "@Secondary", BorderSizePixel = 0, ClipsDescendants = true, Visible = false, GroupTransparency = 1}), 14)
+		New("UIStroke", Panel, {Color = "@Border", Thickness = 1})
+		local PanelHead = New("Frame", Panel, {AnchorPoint = Vector2.new(0,1), Position = UDim2.new(0,0,1,0), Size = UDim2.new(1,0,0,28), BackgroundTransparency = 1})
+		local panelTitle = New("TextLabel", PanelHead, {Position = UDim2.fromOffset(12,0), Size = UDim2.new(1,-30,1,0), BackgroundTransparency = 1, TextColor3 = "@Accent", Font = GOTHB, TextSize = 11, TextXAlignment = LEFT})
+		local Page = New("ScrollingFrame", Panel, {AnchorPoint = Vector2.new(0,1), Position = UDim2.new(0,10,1,-30), Size = UDim2.new(1,-20,1,-40), BackgroundTransparency = 1, BorderSizePixel = 0,
+			ScrollBarThickness = 3, ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
+		New("UIListLayout", Page, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+		New("UIPadding", Page, {PaddingBottom = UDim.new(0,8), PaddingRight = UDim.new(0,4)})
+
+		local Pages, Segs, Active, PanelOpen = {}, {}, nil, false
+		local function ClosePanel()
+			PanelOpen = false
+			Tween(Panel, {Size = UDim2.fromOffset(520,0), GroupTransparency = 1}, 0.18)
+			task.delay(0.19, function() if not PanelOpen then Panel.Visible = false end end)
+			for _, b in pairs(Segs) do Tween(b, {BackgroundColor3 = Theme.Row}, 0.15) end
+		end
+		local function OpenPanel(name)
+			Active = name
+			for n, p in pairs(Pages) do p.Visible = n == name end
+			for n, b in pairs(Segs) do Tween(b, {BackgroundColor3 = n == name and Theme.Accent or Theme.Row}, 0.15) end
+			for _, t in ipairs(Spec) do if t.Key == name then panelTitle.Text = Locale.T(t.Locale) end end
+			Panel.Visible = true; PanelOpen = true
+			Tween(Panel, {Size = UDim2.fromOffset(520, 360), GroupTransparency = 0}, 0.2)
+		end
+		local function Toggle(name)
+			if PanelOpen and Active == name then ClosePanel() else OpenPanel(name) end
+		end
+		table.insert(Refreshers, function() if PanelOpen and Active then for _, t in ipairs(Spec) do if t.Key == Active then panelTitle.Text = Locale.T(t.Locale) end end end end)
+
+		local C = {}
+		local function row(c, h, click)
+			c.n += 1
+			local parent = c.group or c.page
+			local r = New(click and "TextButton" or "Frame", parent, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BorderSizePixel = 0, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
+			if click then r.Text = ""; r.AutoButtonColor = false end
+			return Round(r, 8)
+		end
+		local function rl(r, it, w) return Lbl(r, it, {Position = UDim2.fromOffset(14,0), Size = UDim2.new(1,w or -170,1,0), TextColor3 = "@Text", Font = GOTHM, TextSize = 12, TextXAlignment = LEFT}) end
+		function C.section(it, c)
+			c.n += 1
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,0,0,20), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
+			Lbl(h, it, {Position = UDim2.fromOffset(2,0), Size = UDim2.new(1,-20,1,0), TextColor3 = "@Accent", Font = GOTHB, TextSize = 11, TextXAlignment = LEFT})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-2,0.5,0), Size = UDim2.fromOffset(14,14), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Muted", Font = GOTHB, TextSize = 9})
+			c.n += 1
+			local group = New("Frame", c.page, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = c.n})
+			New("UIListLayout", group, {Padding = UDim.new(0,6), SortOrder = Enum.SortOrder.LayoutOrder})
+			c.group, c.gn = group, 1
+			CollapseOnScroll(h, group, chevron)
+		end
+		function C.label(it, c)
+			c.n += 1
+			local parent = c.group or c.page
+			local h = New("Frame", parent, {Size = UDim2.new(1,0,0,16), BackgroundTransparency = 1, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
+			Lbl(h, it, {Size = UDim2.new(1,0,1,0), TextColor3 = "@SubText", Font = GOTHM, TextSize = 10, TextXAlignment = LEFT})
+		end
+		function C.toggle(it, c)
+			local r = row(c, 34, true); rl(r, it, -60)
+			local track = Round(New("Frame", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(32,17), BorderSizePixel = 0}), 100)
+			local knob = Round(New("Frame", track, {AnchorPoint = Vector2.new(0,0.5), Size = UDim2.fromOffset(12,12), BorderSizePixel = 0}), 100)
+			ToggleLogic(it, r, function(on)
+				Tween(track, {BackgroundColor3 = on and Theme.Accent or Theme.Background}, 0.15)
+				Tween(knob, {Position = on and UDim2.new(1,-14,0.5,0) or UDim2.new(0,3,0.5,0), BackgroundColor3 = on and Theme.Background or Theme.Muted}, 0.15)
+			end)
+		end
+		function C.slider(it, c)
+			local r = row(c, 46)
+			Lbl(r, it, {Position = UDim2.fromOffset(12,6), Size = UDim2.new(1,-90,0,14), TextColor3 = "@Text", Font = GOTHM, TextSize = 11, TextXAlignment = LEFT})
+			local val = New("TextLabel", r, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-12,0,6), Size = UDim2.fromOffset(70,14), BackgroundTransparency = 1, TextColor3 = "@SubText", Font = GOTHB, TextSize = 10, TextXAlignment = RIGHT})
+			local track = Round(New("Frame", r, {Position = UDim2.fromOffset(12,30), Size = UDim2.new(1,-24,0,4), BackgroundColor3 = "@Background", BorderSizePixel = 0}), 100)
+			local fill = Round(New("Frame", track, {Size = UDim2.fromScale(0,1), BackgroundColor3 = "@Accent", BorderSizePixel = 0}), 100)
+			SliderLogic(it, r, track, function(a, txt) Tween(fill, {Size = UDim2.fromScale(a,1)}, 0.08); val.Text = txt end)
+		end
+		local function sideBtn(r)
+			local b = Round(New("TextButton", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(110,22), BackgroundColor3 = "@Background",
+				Text = "", TextColor3 = "@Text", Font = GOTHB, TextSize = 10, AutoButtonColor = false, BorderSizePixel = 0}), 6)
+			return b
+		end
+		function C.choice(it, c)
+			local r = row(c, 34); rl(r, it); local b = sideBtn(r)
+			local sw = AttachColorSwatch(it, r, 14)
+			if sw then sw.Position = UDim2.new(1,-128,0.5,0) end
+			ChoiceLogic(it, b, function(t) b.Text = t end)
+		end
+		function C.bind(it, c)
+			local r = row(c, 34); rl(r, it); local b = sideBtn(r)
+			BindLogic(it, b, function(t) b.Text = t end)
+		end
+		function C.action(it, c)
+			local r = row(c, 32)
+			local b = Round(New("TextButton", r, {Position = UDim2.fromOffset(8,4), Size = UDim2.new(1,-16,1,-8), BackgroundColor3 = "@Accent", TextColor3 = "@Background",
+				Font = GOTHB, TextSize = 11, AutoButtonColor = false, BorderSizePixel = 0}), 6)
+			Locale.Bind(b, it.l)
+			Connect(b.MouseButton1Click, it.fn)
+		end
+		function C.input(it, c)
+			local r = row(c, it.h)
+			local box = Round(MakeInput(r, it, {Position = UDim2.fromOffset(10,6), Size = UDim2.new(1,-20,1,-12), BackgroundColor3 = "@Background", BorderSizePixel = 0}), 6)
+			New("UIPadding", box, {PaddingLeft = UDim.new(0,8), PaddingRight = UDim.new(0,8)})
+		end
+		function C.info(it, c)
+			local r = row(c, 32); rl(r, it, -220)
+			local v = New("TextLabel", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(200,18), BackgroundTransparency = 1,
+				TextColor3 = "@SubText", Font = GOTHB, TextSize = 11, TextXAlignment = RIGHT, TextTruncate = Enum.TextTruncate.AtEnd})
+			InfoReg(v, it)
+		end
+		function C.log(it, c)
+			local r = row(c, 240)
+			local s = New("ScrollingFrame", r, {Position = UDim2.fromOffset(8,8), Size = UDim2.new(1,-16,1,-16), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 2,
+				ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
+			New("UIListLayout", s, {Padding = UDim.new(0,1), SortOrder = Enum.SortOrder.LayoutOrder})
+			Widgets.log = s
+		end
+		function C.avatar(it, c)
+			local r = row(c, 64)
+			local img = MakeAvatar(r, 46); img.Position = UDim2.fromOffset(9,9)
+			New("TextLabel", r, {Position = UDim2.fromOffset(62,14), Size = UDim2.new(1,-70,0,18), BackgroundTransparency = 1, Text = LocalPlayer.Name, TextColor3 = "@Text", Font = GOTHB, TextSize = 13, TextXAlignment = LEFT})
+			New("TextLabel", r, {Position = UDim2.fromOffset(62,32), Size = UDim2.new(1,-70,0,14), BackgroundTransparency = 1, Text = "@" .. LocalPlayer.DisplayName, TextColor3 = "@SubText", Font = GOTHM, TextSize = 10, TextXAlignment = LEFT})
+		end
+
+		for i, tab in ipairs(Spec) do
+			local page = New("Frame", Page, {Name = tab.Key, Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Visible = false})
+			New("UIListLayout", page, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+			Pages[tab.Key] = page
+			local b = Round(New("TextButton", List, {Size = UDim2.fromOffset(30,28), BackgroundColor3 = "@Row", Text = tostring(i), TextColor3 = "@SubText",
+				Font = GOTHB, TextSize = 11, AutoButtonColor = false, BorderSizePixel = 0, LayoutOrder = i + 10}), 8)
+			Segs[tab.Key] = b
+			Connect(b.MouseButton1Click, function() Toggle(tab.Key) end)
+			BuildTab(tab, page, C)
+		end
+
+		return {
+			Show = function(state)
+				if state then Root.Visible = true end
+				Tween(StripScale, {Scale = state and 1 or 0.95}, 0.22, Enum.EasingStyle.Back)
+				Tween(Strip, {GroupTransparency = state and S.UIOpacity or 1}, 0.2)
+				if not state then ClosePanel(); task.delay(0.22, function() if not MenuState.Open and Root.Parent then Root.Visible = false end end) end
+			end,
+			Scale = function(v) StripScale.Scale = v end,
+			Opacity = function(v) if MenuState.Open then Strip.GroupTransparency = v end end,
+			Destroy = function() glow:Cancel() end,
+		}
+	end
+
+	Skins.Radial = function()
+		local Root = New("Frame", MenuGui, {Name = "Main", AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.28,0.5), Size = UDim2.fromOffset(720,420), BackgroundTransparency = 1, Visible = false})
+		local RingHolder = New("Frame", Root, {AnchorPoint = Vector2.new(0,0.5), Position = UDim2.fromOffset(0,210), Size = UDim2.fromOffset(220,220), BackgroundTransparency = 1})
+		local RingScale = New("UIScale", RingHolder, {Scale = 0.9})
+		local Ring = Round(New("CanvasGroup", RingHolder, {Size = UDim2.fromOffset(220,220), BackgroundColor3 = "@Background", BorderSizePixel = 0, GroupTransparency = 1}), 100)
+		local glow = GlowStroke(Ring)
+		local Center = Round(New("Frame", Ring, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(68,68), BackgroundColor3 = "@Secondary", BorderSizePixel = 0, ZIndex = 3}), 100)
+		New("UIStroke", Center, {Color = "@Border", Thickness = 1})
+		Locale.Bind(New("TextLabel", Center, {Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, TextColor3 = "@Text", Font = GOTHB, TextSize = 12, ZIndex = 3}), "APP_NAME")
+		local closeBtn = Round(New("TextButton", Ring, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(20,20),
+			BackgroundColor3 = "@Row", Text = "", AutoButtonColor = false, BorderSizePixel = 0, ZIndex = 4, Visible = false}), 100)
+		New("TextLabel", closeBtn, {Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, Text = "X", TextColor3 = Color3.fromRGB(255,90,100), Font = GOTHB, TextSize = 11})
+		Draggable(Center, RingHolder)
+
+		local Panel = Round(New("CanvasGroup", Root, {AnchorPoint = Vector2.new(0,0.5), Position = UDim2.fromOffset(236,210), Size = UDim2.fromOffset(0,380),
+			BackgroundColor3 = "@Secondary", BorderSizePixel = 0, ClipsDescendants = true, Visible = false, GroupTransparency = 1}), 14)
+		New("UIStroke", Panel, {Color = "@Border", Thickness = 1})
+		local PanelHead = New("Frame", Panel, {Size = UDim2.new(1,0,0,30), BackgroundTransparency = 1})
+		local panelTitle = New("TextLabel", PanelHead, {Position = UDim2.fromOffset(14,0), Size = UDim2.new(1,-20,1,0), BackgroundTransparency = 1, TextColor3 = "@Accent", Font = GOTHB, TextSize = 12, TextXAlignment = LEFT})
+		local Page = New("ScrollingFrame", Panel, {Position = UDim2.fromOffset(10,34), Size = UDim2.new(1,-20,1,-44), BackgroundTransparency = 1, BorderSizePixel = 0,
+			ScrollBarThickness = 3, ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
+		New("UIListLayout", Page, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+		New("UIPadding", Page, {PaddingBottom = UDim.new(0,10), PaddingRight = UDim.new(0,4)})
+
+		local Pages, Wedges, Active, PanelOpen = {}, {}, nil, false
+		local function ClosePanel()
+			PanelOpen = false
+			Tween(Panel, {Size = UDim2.fromOffset(0,380), GroupTransparency = 1}, 0.2)
+			task.delay(0.21, function() if not PanelOpen then Panel.Visible = false end end)
+			for _, w in pairs(Wedges) do Tween(w.Icon, {BackgroundColor3 = Theme.Row}, 0.15) end
+			closeBtn.Visible = false
+		end
+		local function OpenPanel(name)
+			Active = name
+			for n, p in pairs(Pages) do p.Visible = n == name end
+			for n, w in pairs(Wedges) do Tween(w.Icon, {BackgroundColor3 = n == name and Theme.Accent or Theme.Row}, 0.15) end
+			for _, t in ipairs(Spec) do if t.Key == name then panelTitle.Text = Locale.T(t.Locale) end end
+			Panel.Visible = true; PanelOpen = true
+			Tween(Panel, {Size = UDim2.fromOffset(360,380), GroupTransparency = 0}, 0.22, Enum.EasingStyle.Back)
+			closeBtn.Visible = true
+		end
+		local function Toggle(name)
+			if PanelOpen and Active == name then ClosePanel() else OpenPanel(name) end
+		end
+		Connect(closeBtn.MouseButton1Click, function() DebugLog.Push("system", "close pressed, unloading"); Unload() end)
+		table.insert(Refreshers, function() if PanelOpen and Active then for _, t in ipairs(Spec) do if t.Key == Active then panelTitle.Text = Locale.T(t.Locale) end end end end)
+
+		local C = {}
+		local function row(c, h, click)
+			c.n += 1
+			local parent = c.group or c.page
+			local r = New(click and "TextButton" or "Frame", parent, {Size = UDim2.new(1,0,0,h), BackgroundColor3 = "@Row", BorderSizePixel = 0, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
+			if click then r.Text = ""; r.AutoButtonColor = false end
+			return Round(r, 8)
+		end
+		local function rl(r, it, w) return Lbl(r, it, {Position = UDim2.fromOffset(14,0), Size = UDim2.new(1,w or -170,1,0), TextColor3 = "@Text", Font = GOTHM, TextSize = 12, TextXAlignment = LEFT}) end
+		function C.section(it, c)
+			c.n += 1
+			local h = New("TextButton", c.page, {Size = UDim2.new(1,0,0,20), BackgroundTransparency = 1, Text = "", AutoButtonColor = false, LayoutOrder = c.n})
+			Lbl(h, it, {Position = UDim2.fromOffset(2,0), Size = UDim2.new(1,-20,1,0), TextColor3 = "@Accent", Font = GOTHB, TextSize = 11, TextXAlignment = LEFT})
+			local chevron = New("TextLabel", h, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-2,0.5,0), Size = UDim2.fromOffset(14,14), BackgroundTransparency = 1,
+				Text = "v", TextColor3 = "@Muted", Font = GOTHB, TextSize = 9})
+			c.n += 1
+			local group = New("Frame", c.page, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = c.n})
+			New("UIListLayout", group, {Padding = UDim.new(0,6), SortOrder = Enum.SortOrder.LayoutOrder})
+			c.group, c.gn = group, 1
+			CollapseOnScroll(h, group, chevron)
+		end
+		function C.label(it, c)
+			c.n += 1
+			local parent = c.group or c.page
+			local h = New("Frame", parent, {Size = UDim2.new(1,0,0,16), BackgroundTransparency = 1, LayoutOrder = c.group and c.gn or c.n})
+			if c.group then c.gn = (c.gn or 0) + 1 end
+			Lbl(h, it, {Size = UDim2.new(1,0,1,0), TextColor3 = "@SubText", Font = GOTHM, TextSize = 10, TextXAlignment = LEFT})
+		end
+		function C.toggle(it, c)
+			local r = row(c, 34, true); rl(r, it, -60)
+			local track = Round(New("Frame", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(32,17), BorderSizePixel = 0}), 100)
+			local knob = Round(New("Frame", track, {AnchorPoint = Vector2.new(0,0.5), Size = UDim2.fromOffset(12,12), BorderSizePixel = 0}), 100)
+			ToggleLogic(it, r, function(on)
+				Tween(track, {BackgroundColor3 = on and Theme.Accent or Theme.Background}, 0.15)
+				Tween(knob, {Position = on and UDim2.new(1,-14,0.5,0) or UDim2.new(0,3,0.5,0), BackgroundColor3 = on and Theme.Background or Theme.Muted}, 0.15)
+			end)
+		end
+		function C.slider(it, c)
+			local r = row(c, 46)
+			Lbl(r, it, {Position = UDim2.fromOffset(12,6), Size = UDim2.new(1,-90,0,14), TextColor3 = "@Text", Font = GOTHM, TextSize = 11, TextXAlignment = LEFT})
+			local val = New("TextLabel", r, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-12,0,6), Size = UDim2.fromOffset(70,14), BackgroundTransparency = 1, TextColor3 = "@SubText", Font = GOTHB, TextSize = 10, TextXAlignment = RIGHT})
+			local track = Round(New("Frame", r, {Position = UDim2.fromOffset(12,30), Size = UDim2.new(1,-24,0,4), BackgroundColor3 = "@Background", BorderSizePixel = 0}), 100)
+			local fill = Round(New("Frame", track, {Size = UDim2.fromScale(0,1), BackgroundColor3 = "@Accent", BorderSizePixel = 0}), 100)
+			SliderLogic(it, r, track, function(a, txt) Tween(fill, {Size = UDim2.fromScale(a,1)}, 0.08); val.Text = txt end)
+		end
+		local function sideBtn(r)
+			local b = Round(New("TextButton", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(110,22), BackgroundColor3 = "@Background",
+				Text = "", TextColor3 = "@Text", Font = GOTHB, TextSize = 10, AutoButtonColor = false, BorderSizePixel = 0}), 6)
+			return b
+		end
+		function C.choice(it, c)
+			local r = row(c, 34); rl(r, it); local b = sideBtn(r)
+			local sw = AttachColorSwatch(it, r, 14)
+			if sw then sw.Position = UDim2.new(1,-128,0.5,0) end
+			ChoiceLogic(it, b, function(t) b.Text = t end)
+		end
+		function C.bind(it, c)
+			local r = row(c, 34); rl(r, it); local b = sideBtn(r)
+			BindLogic(it, b, function(t) b.Text = t end)
+		end
+		function C.action(it, c)
+			local r = row(c, 32)
+			local b = Round(New("TextButton", r, {Position = UDim2.fromOffset(8,4), Size = UDim2.new(1,-16,1,-8), BackgroundColor3 = "@Accent", TextColor3 = "@Background",
+				Font = GOTHB, TextSize = 11, AutoButtonColor = false, BorderSizePixel = 0}), 6)
+			Locale.Bind(b, it.l)
+			Connect(b.MouseButton1Click, it.fn)
+		end
+		function C.input(it, c)
+			local r = row(c, it.h)
+			local box = Round(MakeInput(r, it, {Position = UDim2.fromOffset(10,6), Size = UDim2.new(1,-20,1,-12), BackgroundColor3 = "@Background", BorderSizePixel = 0}), 6)
+			New("UIPadding", box, {PaddingLeft = UDim.new(0,8), PaddingRight = UDim.new(0,8)})
+		end
+		function C.info(it, c)
+			local r = row(c, 32); rl(r, it, -220)
+			local v = New("TextLabel", r, {AnchorPoint = Vector2.new(1,0.5), Position = UDim2.new(1,-10,0.5,0), Size = UDim2.fromOffset(200,18), BackgroundTransparency = 1,
+				TextColor3 = "@SubText", Font = GOTHB, TextSize = 11, TextXAlignment = RIGHT, TextTruncate = Enum.TextTruncate.AtEnd})
+			InfoReg(v, it)
+		end
+		function C.log(it, c)
+			local r = row(c, 240)
+			local s = New("ScrollingFrame", r, {Position = UDim2.fromOffset(8,8), Size = UDim2.new(1,-16,1,-16), BackgroundTransparency = 1, BorderSizePixel = 0, ScrollBarThickness = 2,
+				ScrollBarImageColor3 = "@Accent", CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y})
+			New("UIListLayout", s, {Padding = UDim.new(0,1), SortOrder = Enum.SortOrder.LayoutOrder})
+			Widgets.log = s
+		end
+		function C.avatar(it, c)
+			local r = row(c, 64)
+			local img = MakeAvatar(r, 46); img.Position = UDim2.fromOffset(9,9)
+			New("TextLabel", r, {Position = UDim2.fromOffset(62,14), Size = UDim2.new(1,-70,0,18), BackgroundTransparency = 1, Text = LocalPlayer.Name, TextColor3 = "@Text", Font = GOTHB, TextSize = 13, TextXAlignment = LEFT})
+			New("TextLabel", r, {Position = UDim2.fromOffset(62,32), Size = UDim2.new(1,-70,0,14), BackgroundTransparency = 1, Text = "@" .. LocalPlayer.DisplayName, TextColor3 = "@SubText", Font = GOTHM, TextSize = 10, TextXAlignment = LEFT})
+		end
+
+		local count = #Spec
+		for i, tab in ipairs(Spec) do
+			local page = New("Frame", Page, {Name = tab.Key, Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, Visible = false})
+			New("UIListLayout", page, {Padding = UDim.new(0,8), SortOrder = Enum.SortOrder.LayoutOrder})
+			Pages[tab.Key] = page
+			local angle = -90 + (i - 1) * (360 / count)
+			local rad = math.rad(angle)
+			local r0 = 88
+			local icon = Round(New("TextButton", Ring, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.new(0.5, math.cos(rad) * r0, 0.5, math.sin(rad) * r0),
+				Size = UDim2.fromOffset(36,36), BackgroundColor3 = "@Row", Text = tostring(i), TextColor3 = "@SubText", Font = GOTHB, TextSize = 12, AutoButtonColor = false, BorderSizePixel = 0, ZIndex = 2}), 100)
+			New("UIStroke", icon, {Color = "@Border", Thickness = 1})
+			Wedges[tab.Key] = {Icon = icon}
+			Connect(icon.MouseButton1Click, function() Toggle(tab.Key) end)
+			BuildTab(tab, page, C)
+		end
+
+		return {
+			Show = function(state)
+				if state then Root.Visible = true end
+				Tween(RingScale, {Scale = state and 1 or 0.88}, 0.25, Enum.EasingStyle.Back)
+				Tween(Ring, {GroupTransparency = state and S.UIOpacity or 1}, 0.2)
+				if not state then ClosePanel(); task.delay(0.22, function() if not MenuState.Open and Root.Parent then Root.Visible = false end end) end
+			end,
+			Scale = function(v) RingScale.Scale = v end,
+			Opacity = function(v) if MenuState.Open then Ring.GroupTransparency = v end end,
+			Destroy = function() glow:Cancel() end,
+		}
+	end
+
 	Unload = function()
 		if Unloaded then return end
 		Unloaded = true
@@ -2318,7 +3519,11 @@ local function LaunchHub(skinName)
 			if Applied.Jump then hum.UseJumpPower = Applied.UseJumpPower; hum.JumpPower = Applied.JumpPower end
 		end
 		World.Restore()
-		for player in pairs(Entries) do RemoveEntry(player) end
+		for i = #EntryOrder, 1, -1 do
+			local entity = EntryOrder[i]
+			if Entries[entity] then RemoveEntry(entity) end
+		end
+		table.clear(EntryOrder); table.clear(EntryIndex)
 		if Skin then pcall(Skin.Destroy) end
 		table.clear(Refreshers); table.clear(Bound)
 		table.clear(Locale.Registry); table.clear(Locale.Listeners)
@@ -2327,7 +3532,6 @@ local function LaunchHub(skinName)
 	end
 	Env.VortexUnload = Unload
 
-	---------------------------------------------------------- BUILD MENU (with fallback to Classic if a skin errors)
 	local okSkin, resSkin = pcall(Skins[skinName] or Skins.Classic)
 	if okSkin then
 		Skin = resSkin
@@ -2347,7 +3551,6 @@ local function LaunchHub(skinName)
 		Connect(fab.MouseButton1Click, function() SetMenu(not MenuState.Open) end)
 	end
 
-	---------------------------------------------------------- INPUT
 	Connect(UserInputService.InputChanged, function(input)
 		local t = input.UserInputType
 		if t ~= Enum.UserInputType.MouseMovement and t ~= Enum.UserInputType.Touch then return end
@@ -2407,11 +3610,56 @@ local function LaunchHub(skinName)
 		end
 	end)
 
-	for _, player in ipairs(Players:GetPlayers()) do
-		if player ~= LocalPlayer then NewEntry(player) end
+	local function RegisterBotModel(model)
+		model = CanonicalBotModel(model)
+		if Unloaded or not model then return end
+
+		local hum, root = GetBotParts(model)
+		if hum and BotByHumanoid[hum] then return end
+		if root and BotByRoot[root] then return end
+		if Entries[model] then return end
+
+		local e = NewBotEntry(model)
+		if hum then BotByHumanoid[hum] = model end
+		if root then BotByRoot[root] = model end
+		return e
 	end
-	Connect(Players.PlayerAdded, function(player) if player ~= LocalPlayer then NewEntry(player) end end)
+
+	local function TryRegisterBotFrom(inst)
+		local cur = inst
+		for _ = 1, 8 do
+			if not cur or cur == Workspace then break end
+			if cur:IsA("Model") then RegisterBotModel(cur) end
+			cur = cur.Parent
+		end
+	end
+
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer then NewPlayerEntry(player) end
+	end
+	Connect(Players.PlayerAdded, function(player) if player ~= LocalPlayer then NewPlayerEntry(player) end end)
 	Connect(Players.PlayerRemoving, function(player) RemoveEntry(player) end)
+	Connect(Workspace.DescendantAdded, function(inst)
+		if inst:IsA("Model") or inst:IsA("Humanoid") then TryRegisterBotFrom(inst) end
+	end)
+	Connect(Workspace.DescendantRemoving, function(inst)
+		if inst:IsA("Model") then
+			local e = Entries[inst]
+			if e and e.IsBot then RemoveEntry(inst) end
+		end
+	end)
+
+	task.spawn(function()
+		local descendants = Workspace:GetDescendants()
+		for i, obj in ipairs(descendants) do
+			if Unloaded then break end
+			if obj:IsA("Model") and not IsUnderPlayerCharacter(obj) and obj:FindFirstChildOfClass("Humanoid") and obj:FindFirstChild("HumanoidRootPart") then
+				RegisterBotModel(obj)
+			end
+			if i % 350 == 0 then task.wait() end
+		end
+	end)
 
 	local InfoAccum = 0
 	local function UpdateInfos(dt)
@@ -2446,10 +3694,9 @@ local function LaunchHub(skinName)
 	SetMenu(true)
 	Notify(Locale.T("TOAST_LOADED"))
 	DebugLog.Push("system", "hub loaded successfully")
-	RenderLog() -- one report on load; the next one only on REFRESH LOG
+	RenderLog()
 end
 
----------------------------------------------------------------- MENU PICKER (4 different menu styles, shown right after the key)
 local function RunMenuPicker(onPick)
 	local gui = New("ScreenGui", PlayerGui, {Name = "VortexMenuPick", ResetOnSpawn = false, IgnoreGuiInset = true, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 90})
 	local dim = New("Frame", gui, {Size = UDim2.fromScale(1,1), BackgroundColor3 = Color3.new(0,0,0), BackgroundTransparency = 1, BorderSizePixel = 0, Active = true})
@@ -2465,9 +3712,10 @@ local function RunMenuPicker(onPick)
 	local closeAll = Round(New("TextButton", holder, {AnchorPoint = Vector2.new(1,0), Position = UDim2.new(1,-24,0,24), Size = UDim2.fromOffset(34,34), BackgroundColor3 = Color3.fromRGB(24,24,30),
 		Text = "X", TextColor3 = Color3.fromRGB(255,90,100), Font = GOTHB, TextSize = 16, AutoButtonColor = false, BorderSizePixel = 0}), 8)
 
-	local names = {"Classic", "Windows", "Dock", "Terminal"}
-	local descs = {Classic = "Sidebar tabs + rows", Windows = "Floating draggable panels", Dock = "Bottom dock + tile grid", Terminal = "Monospace console"}
-	local cardsHolder = New("Frame", holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.54), Size = UDim2.fromOffset(#names * 200 + (#names - 1) * 20, 270), BackgroundTransparency = 1})
+	local names = {"Classic", "Windows", "Dock", "Terminal", "Notch", "HUDStrip", "Radial"}
+	local descs = {Classic = "Sidebar tabs + rows", Windows = "Floating draggable panels", Dock = "Bottom dock + tile grid", Terminal = "Monospace console",
+		Notch = "Top pill, tap-to-expand sheet", HUDStrip = "Always-on bottom HUD + pop panel", Radial = "Ring of wedges + side panel"}
+	local cardsHolder = New("Frame", holder, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.54), Size = UDim2.fromOffset(#names * 200 + (#names - 1) * 20, 320), BackgroundTransparency = 1})
 	New("UIListLayout", cardsHolder, {FillDirection = Enum.FillDirection.Horizontal, Padding = UDim.new(0,20), HorizontalAlignment = Enum.HorizontalAlignment.Center, VerticalAlignment = Enum.VerticalAlignment.Center})
 	local vpx = Camera.ViewportSize.X
 	New("UIScale", cardsHolder, {Scale = math.clamp((vpx - 40) / (#names * 220), 0.4, 1)})
@@ -2504,7 +3752,7 @@ local function RunMenuPicker(onPick)
 			end
 			local dk = Box(parent, 30, 112, 120, 26, p.Secondary, 13)
 			for i = 0, 3 do Box(dk, 10 + i * 27, 7, 22, 12, i == 0 and p.Accent or p.Row, 6) end
-		else
+		elseif name == "Terminal" then
 			local t = Box(parent, 6, 6, 168, 138, p.Background)
 			New("UIStroke", t, {Color = p.Accent, Thickness = 1})
 			Box(t, 0, 0, 168, 12, p.Secondary)
@@ -2513,6 +3761,29 @@ local function RunMenuPicker(onPick)
 				Box(t, 8, 20 + (i - 1) * 16, 40 + (i * 13) % 50, 5, p.SubText)
 				Box(t, 130, 20 + (i - 1) * 16, 26, 5, i % 2 == 0 and p.Accent or p.Muted)
 			end
+		elseif name == "Notch" then
+			local pill = Box(parent, 30, 4, 120, 20, p.Secondary, 10)
+			New("UIStroke", pill, {Color = p.Accent, Thickness = 1})
+			for i = 0, 3 do Box(pill, 8 + i * 24, 4, 18, 12, i == 0 and p.Accent or p.Row, 6) end
+			local sheet = Box(parent, 20, 30, 140, 100, p.Background, 10)
+			New("UIStroke", sheet, {Color = p.Border, Thickness = 1})
+			for i = 1, 4 do Box(sheet, 10, 8 + (i - 1) * 22, 120, 16, p.Row, 5) end
+		elseif name == "HUDStrip" then
+			local strip = Box(parent, 10, 118, 160, 24, p.Background, 12)
+			New("UIStroke", strip, {Color = p.Accent, Thickness = 1})
+			for i = 0, 3 do Box(strip, 8 + i * 38, 6, 32, 12, p.Row, 4) end
+			local panel = Box(parent, 30, 20, 120, 90, p.Secondary, 8)
+			New("UIStroke", panel, {Color = p.Border, Thickness = 1})
+			for i = 1, 3 do Box(panel, 8, 8 + (i - 1) * 26, 104, 18, p.Row, 5) end
+		elseif name == "Radial" then
+			local ring = Box(parent, 20, 15, 120, 120, p.Secondary, 60)
+			New("UIStroke", ring, {Color = p.Accent, Thickness = 1.5})
+			Box(ring, 44, 44, 32, 32, p.Background, 16)
+			for i = 0, 5 do
+				local a = math.rad(-90 + i * 60)
+				Box(ring, 60 + math.cos(a) * 46 - 8, 60 + math.sin(a) * 46 - 8, 16, 16, i == 0 and p.Accent or p.Row, 8)
+			end
+			Box(parent, 148, 20, 32, 110, p.Background, 6)
 		end
 	end
 
@@ -2522,17 +3793,35 @@ local function RunMenuPicker(onPick)
 		local p = {}
 		for k, v in pairs(Themes[pref[1]]) do p[k] = v end
 		if AccentColors[pref[2]] then p.Accent = AccentColors[pref[2]] end
-		local card = Round(New("TextButton", cardsHolder, {Size = UDim2.fromOffset(200,270), BackgroundColor3 = p.Background, Text = "", AutoButtonColor = false, BorderSizePixel = 0}), 14)
+		local card = Round(New("TextButton", cardsHolder, {Size = UDim2.fromOffset(200,320), BackgroundColor3 = p.Background, Text = "", AutoButtonColor = false, BorderSizePixel = 0}), 14)
 		local stroke = New("UIStroke", card, {Color = p.Border, Thickness = 1.5})
 		local pv = New("Frame", card, {Position = UDim2.fromOffset(10,10), Size = UDim2.fromOffset(180,150), BackgroundColor3 = p.Secondary, BorderSizePixel = 0, ClipsDescendants = true})
 		New("UICorner", pv, {CornerRadius = UDim.new(0,8)})
 		Preview(name, pv, p)
 		New("TextLabel", card, {Position = UDim2.fromOffset(0,172), Size = UDim2.new(1,0,0,26), BackgroundTransparency = 1, Text = string.upper(name), TextColor3 = p.Text, Font = GOTHB, TextSize = 16})
 		New("TextLabel", card, {Position = UDim2.fromOffset(0,198), Size = UDim2.new(1,0,0,18), BackgroundTransparency = 1, Text = descs[name], TextColor3 = p.SubText, Font = GOTHM, TextSize = 11})
-		local sel = Round(New("Frame", card, {AnchorPoint = Vector2.new(0.5,1), Position = UDim2.new(0.5,0,1,-14), Size = UDim2.fromOffset(120,26), BackgroundColor3 = p.Accent, BorderSizePixel = 0}), 8)
+		local sel = Round(New("Frame", card, {AnchorPoint = Vector2.new(0.5,0), Position = UDim2.new(0.5,0,0,222), Size = UDim2.fromOffset(120,26), BackgroundColor3 = p.Accent, BorderSizePixel = 0}), 8)
 		New("TextLabel", sel, {Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, Text = "SELECT", TextColor3 = p.Background, Font = GOTHB, TextSize = 12})
-		card.MouseEnter:Connect(function() Tween(stroke, {Color = p.Accent, Thickness = 2.5}, 0.15) end)
-		card.MouseLeave:Connect(function() Tween(stroke, {Color = p.Border, Thickness = 1.5}, 0.15) end)
+
+		local iconHolder = New("Frame", card, {AnchorPoint = Vector2.new(0.5,0), Position = UDim2.new(0.5,0,0,258), Size = UDim2.fromOffset(40,40), BackgroundTransparency = 1})
+		local iconScale = New("UIScale", iconHolder, {Scale = 1})
+		local icon = Round(New("Frame", iconHolder, {AnchorPoint = Vector2.new(0.5,0), Size = UDim2.fromOffset(40,40), BackgroundColor3 = p.Secondary, BorderSizePixel = 0, ClipsDescendants = true, BackgroundTransparency = 0.35}), 8)
+		local iconStroke = New("UIStroke", icon, {Color = p.Border, Thickness = 1, Transparency = 0.3})
+		local iconInner = New("Frame", icon, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(180,150), BackgroundTransparency = 1})
+		local iconInnerScale = New("UIScale", iconInner, {Scale = 40 / 180})
+		Preview(name, iconInner, p)
+		card.MouseEnter:Connect(function()
+			Tween(stroke, {Color = p.Accent, Thickness = 2.5}, 0.15)
+			Tween(iconScale, {Scale = 1.6}, 0.16, Enum.EasingStyle.Back)
+			Tween(icon, {BackgroundTransparency = 0}, 0.16)
+			Tween(iconStroke, {Color = p.Accent, Transparency = 0}, 0.16)
+		end)
+		card.MouseLeave:Connect(function()
+			Tween(stroke, {Color = p.Border, Thickness = 1.5}, 0.15)
+			Tween(iconScale, {Scale = 1}, 0.16)
+			Tween(icon, {BackgroundTransparency = 0.35}, 0.16)
+			Tween(iconStroke, {Color = p.Border, Transparency = 0.3}, 0.16)
+		end)
 		card.MouseButton1Click:Connect(function()
 			if picked then return end
 			picked = true
@@ -2554,7 +3843,6 @@ local function RunMenuPicker(onPick)
 	end)
 end
 
----------------------------------------------------------------- KEY SYSTEM
 local function RunKeySystem(onSuccess)
 	local gui = New("ScreenGui", PlayerGui, {Name = "VortexAuth", ResetOnSpawn = false, IgnoreGuiInset = true, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 100})
 	local dim = New("Frame", gui, {Size = UDim2.fromScale(1,1), BackgroundColor3 = Color3.new(0,0,0), BackgroundTransparency = 1, BorderSizePixel = 0, Active = true})
@@ -2681,9 +3969,77 @@ local function RunKeySystem(onSuccess)
 	Tween(scale, {Scale = 1}, 0.45, Enum.EasingStyle.Back)
 end
 
----------------------------------------------------------------- BOOT
-DebugLog.Push("system", "auth gate presented")
-RunKeySystem(function()
+local function RunEula(onAccept)
+	local gui = New("ScreenGui", PlayerGui, {Name = "VortexEula", ResetOnSpawn = false, IgnoreGuiInset = true, ZIndexBehavior = Enum.ZIndexBehavior.Sibling, DisplayOrder = 100})
+	local dim = New("Frame", gui, {Size = UDim2.fromScale(1,1), BackgroundColor3 = Color3.new(0,0,0), BackgroundTransparency = 1, BorderSizePixel = 0, Active = true})
+	local card = Round(New("CanvasGroup", gui, {AnchorPoint = Vector2.new(0.5,0.5), Position = UDim2.fromScale(0.5,0.5), Size = UDim2.fromOffset(460,420),
+		BackgroundColor3 = "@Background", BorderSizePixel = 0, GroupTransparency = 1}), 14)
+	local scale = New("UIScale", card, {Scale = 0.9})
+	local glow = GlowStroke(card)
+
+	New("TextLabel", card, {Position = UDim2.fromOffset(0,24), Size = UDim2.new(1,0,0,26), BackgroundTransparency = 1, Text = "USER AGREEMENT", TextColor3 = "@Text", Font = GOTHB, TextSize = 20})
+	New("TextLabel", card, {Position = UDim2.fromOffset(0,52), Size = UDim2.new(1,0,0,16), BackgroundTransparency = 1, Text = "READ BEFORE CONTINUING", TextColor3 = "@Accent", Font = GOTHM, TextSize = 11})
+
+	local body = Round(New("ScrollingFrame", card, {Position = UDim2.fromOffset(24,84), Size = UDim2.new(1,-48,0,246), BackgroundColor3 = "@Row", BorderSizePixel = 0,
+		ScrollBarThickness = 4, CanvasSize = UDim2.new(0,0,0,0), AutomaticCanvasSize = Enum.AutomaticSize.Y}), 8)
+	New("UIPadding", body, {PaddingLeft = UDim.new(0,14), PaddingRight = UDim.new(0,14), PaddingTop = UDim.new(0,12), PaddingBottom = UDim.new(0,12)})
+	New("UIListLayout", body, {Padding = UDim.new(0,10), SortOrder = Enum.SortOrder.LayoutOrder})
+
+	local EulaClauses = {
+		"This software is provided to you personally and is licensed, not sold. Access is tied to your key and account; it is not transferable.",
+		"Cracking, reverse-engineering, or bypassing the key/authorization system is prohibited. Any attempt to do so voids access immediately and permanently.",
+		"Redistribution, resale, re-hosting, or public sharing of this software, in whole or in part, modified or unmodified, is prohibited without explicit written permission.",
+		"Sharing your access key with any other person is prohibited. A shared key is treated the same as a cracked one.",
+		"You are solely responsible for how and where you use this software, including any consequences within a game, platform, or service (bans, restrictions, account action).",
+		"This software is provided \"as is\" with no warranty of any kind, express or implied, including fitness for a particular purpose or non-infringement.",
+		"Continued use after any update constitutes acceptance of that update's terms as presented at that time.",
+	}
+	for i, text in ipairs(EulaClauses) do
+		local row = New("Frame", body, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1, LayoutOrder = i})
+		New("TextLabel", row, {Size = UDim2.new(1,0,0,0), AutomaticSize = Enum.AutomaticSize.Y, BackgroundTransparency = 1,
+			Text = string.format("%d.  %s", i, text), TextColor3 = "@SubText", Font = GOTHM, TextSize = 12, TextWrapped = true, TextXAlignment = LEFT, TextYAlignment = Enum.TextYAlignment.Top})
+	end
+
+	local agreeRow = New("Frame", card, {Position = UDim2.fromOffset(24,340), Size = UDim2.new(1,-48,0,26), BackgroundTransparency = 1})
+	local agreed = false
+	local check = Round(New("TextButton", agreeRow, {Size = UDim2.fromOffset(20,20), BackgroundColor3 = "@Row", Text = "", AutoButtonColor = false, BorderSizePixel = 0}), 5)
+	local checkStroke = New("UIStroke", check, {Color = "@Border", Thickness = 1.5})
+	local checkMark = New("TextLabel", check, {Size = UDim2.fromScale(1,1), BackgroundTransparency = 1, Text = "✓", TextColor3 = "@Background", Font = GOTHB, TextSize = 14, TextTransparency = 1})
+	New("TextLabel", agreeRow, {Position = UDim2.fromOffset(30,0), Size = UDim2.new(1,-30,1,0), BackgroundTransparency = 1, Text = "I have read and agree to the terms above",
+		TextColor3 = "@SubText", Font = GOTHM, TextSize = 12, TextXAlignment = LEFT})
+
+	local button = Round(New("TextButton", card, {Position = UDim2.fromOffset(24,378), Size = UDim2.new(1,-48,0,26), BackgroundColor3 = "@Row", Text = "AGREE AND CONTINUE",
+		TextColor3 = "@Background", Font = GOTHB, TextSize = 12, AutoButtonColor = false, BorderSizePixel = 0}), 7)
+
+	local function SetAgreed(v)
+		agreed = v
+		Tween(check, {BackgroundColor3 = agreed and Theme.Accent or Theme.Row}, 0.12)
+		Tween(checkMark, {TextTransparency = agreed and 0 or 1}, 0.12)
+		Tween(button, {BackgroundColor3 = agreed and Theme.Accent or Theme.Row, TextColor3 = agreed and Theme.Background or Theme.SubText}, 0.15)
+	end
+	check.MouseButton1Click:Connect(function() SetAgreed(not agreed) end)
+
+	local closed = false
+	button.MouseButton1Click:Connect(function()
+		if not agreed or closed then return end
+		closed = true
+		DebugLog.Push("eula", "terms accepted by " .. LocalPlayer.Name)
+		Tween(dim, {BackgroundTransparency = 1}, 0.25)
+		Tween(card, {GroupTransparency = 1}, 0.25)
+		task.delay(0.3, function()
+			glow:Cancel()
+			gui:Destroy()
+			table.clear(Refreshers)
+			onAccept()
+		end)
+	end)
+
+	Tween(dim, {BackgroundTransparency = 0.45}, 0.4)
+	Tween(card, {GroupTransparency = 0}, 0.35)
+	Tween(scale, {Scale = 1}, 0.45, Enum.EasingStyle.Back)
+end
+
+local function ProceedPastEula()
 	DebugLog.Push("system", "menu picker presented")
 	RunMenuPicker(function(skin)
 		local ok, err = pcall(LaunchHub, skin)
@@ -2691,5 +4047,19 @@ RunKeySystem(function()
 			DebugLog.Push("system", "hub launch error: " .. tostring(err), true)
 			warn("[Vortex] " .. tostring(err))
 		end
+	end)
+end
+
+DebugLog.Push("system", "auth gate presented")
+RunKeySystem(function()
+	if LoadSetting("eula_accepted", "0") == "1" then
+		DebugLog.Push("system", "eula previously accepted, skipping")
+		ProceedPastEula()
+		return
+	end
+	DebugLog.Push("system", "eula presented")
+	RunEula(function()
+		SaveSetting("eula_accepted", "1")
+		ProceedPastEula()
 	end)
 end)
