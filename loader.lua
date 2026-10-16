@@ -27,10 +27,11 @@ local CONFIG = {
         },
         {
             name = "fly, noclip etc.",
-            cmd = "loadstring(game:HttpGet('https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/fly_speed-hack_etc."
+            cmd = "loadstring(game:HttpGet('https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/fly_speed-hack_etc.lua'))()",
             desc = "meme script",
             tag = "FREE",
         },
+    },
 }
 
 local THEME = {
