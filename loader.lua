@@ -31,7 +31,6 @@ local CONFIG = {
             desc = "meme script",
             tag = "FREE",
         },
-        {
 }
 
 local THEME = {
