@@ -15,19 +15,19 @@ local CONFIG = {
     scripts = {
         {
             name = "Vortex Hub",
-            cmd = "loadstring(game:HttpGet('https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/old.lua'))()",
+            url = "https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/old.lua",
             desc = "Main",
             tag = "FREE",
         },
         {
             name = "Loot To Forge",
-            cmd = "loadstring(game:HttpGet('https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/Loot_To_Forge.lua'))()",
+            url = "https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/Loot_To_Forge.lua",
             desc = "Loot utility",
             tag = "FREE",
         },
         {
             name = "fly, noclip etc.",
-            cmd = "loadstring(game:HttpGet('https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/fly_speed-hack_etc.lua'))()",
+            url = "https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/fly_speed-hack_etc.lua",
             desc = "meme script",
             tag = "FREE",
         },
@@ -114,32 +114,18 @@ local function label(parent, properties)
     return make("TextLabel", props, parent)
 end
 
-local function extractUrl(value)
-    return value:match("https?://[^'\"%)%s]+")
-end
-
 local function runScript(entry, setStatus)
-    if entry.available == false then
-        setStatus("This script is coming soon", "idle")
-        return false
-    end
-
-    local url = extractUrl(entry.cmd or entry.url or "")
-    if not url then
-        setStatus("No valid URL for " .. entry.name, "err")
-        return false
-    end
-
     setStatus("Fetching " .. entry.name .. "...", "idle")
-    local fetchOk, source = pcall(game.HttpGet, game, url)
+
+    local fetchOk, source = pcall(game.HttpGet, game, entry.url)
     if not fetchOk or type(source) ~= "string" or #source == 0 then
         setStatus("Couldn't fetch " .. entry.name, "err")
         return false
     end
 
-    local compileOk, callback, compileError = pcall(loadstring, source)
+    local compileOk, callback = pcall(loadstring, source)
     if not compileOk or type(callback) ~= "function" then
-        setStatus("Compile error: " .. tostring(compileError or callback), "err")
+        setStatus("Compile error in " .. entry.name, "err")
         return false
     end
 
@@ -160,6 +146,9 @@ if not player then
     return
 end
 
+-- Prefer gethui() (hidden from game scripts). Fall back to PlayerGui, NOT CoreGui:
+-- putting our ScreenGui into CoreGui is what collides with Roblox's own CoreGui
+-- scripts and produces the "attempt to call a nil value" spam in Locales.
 local guiParent
 if typeof(gethui) == "function" then
     local getHuiOk, result = pcall(gethui)
@@ -168,7 +157,7 @@ if typeof(gethui) == "function" then
     end
 end
 if not guiParent then
-    guiParent = game:GetService("CoreGui")
+    guiParent = player:WaitForChild("PlayerGui")
 end
 
 local existing = guiParent:FindFirstChild("VortexLoaderGui")
@@ -182,13 +171,7 @@ local screen = make("ScreenGui", {
     IgnoreGuiInset = true,
     ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
     DisplayOrder = 20,
-}, nil)
-
-if not pcall(function()
-    screen.Parent = guiParent
-end) then
-    screen.Parent = player:WaitForChild("PlayerGui")
-end
+}, guiParent)
 
 local connections = {}
 local function track(connection)
@@ -551,12 +534,7 @@ task.spawn(function()
 end)
 
 -- content heading
-local availableCount = 0
-for _, entry in ipairs(CONFIG.scripts) do
-    if entry.available ~= false then
-        availableCount += 1
-    end
-end
+local availableCount = #CONFIG.scripts
 
 label(body, {
     Size = UDim2.new(1, -450, 0, 24),
@@ -726,8 +704,6 @@ local emptyLabel = label(scriptList, {
 local cards = {}
 
 for index, entry in ipairs(CONFIG.scripts) do
-    local isAvailable = entry.available ~= false
-
     local card = make("Frame", {
         Name = "ScriptCard" .. index,
         Size = UDim2.new(1, 0, 0, 80),
@@ -742,21 +718,17 @@ for index, entry in ipairs(CONFIG.scripts) do
     local icon = make("Frame", {
         Size = UDim2.fromOffset(44, 44),
         Position = UDim2.fromOffset(14, 18),
-        BackgroundColor3 = isAvailable and Color3.new(1, 1, 1) or THEME.panel,
+        BackgroundColor3 = Color3.new(1, 1, 1),
         BorderSizePixel = 0,
     }, card)
     corner(icon, 12)
-    if isAvailable then
-        gradient(icon, THEME.accentA, THEME.accentB, 45)
-    else
-        stroke(icon, THEME.stroke, 1, 0.2)
-    end
+    gradient(icon, THEME.accentA, THEME.accentB, 45)
     label(icon, {
         Size = UDim2.fromScale(1, 1),
-        Text = isAvailable and string.upper(string.sub(entry.name, 1, 1)) or "+",
+        Text = string.upper(string.sub(entry.name, 1, 1)),
         Font = Enum.Font.GothamBold,
         TextSize = 19,
-        TextColor3 = isAvailable and Color3.new(1, 1, 1) or THEME.muted,
+        TextColor3 = Color3.new(1, 1, 1),
         TextXAlignment = Enum.TextXAlignment.Center,
     })
 
@@ -766,7 +738,7 @@ for index, entry in ipairs(CONFIG.scripts) do
         Text = entry.name,
         Font = Enum.Font.GothamBold,
         TextSize = 14,
-        TextColor3 = isAvailable and THEME.text or THEME.subtext,
+        TextColor3 = THEME.text,
         TextTruncate = Enum.TextTruncate.AtEnd,
     })
     label(card, {
@@ -781,7 +753,7 @@ for index, entry in ipairs(CONFIG.scripts) do
     local tag = make("Frame", {
         Size = UDim2.fromOffset(40, 16),
         Position = UDim2.fromOffset(72, 54),
-        BackgroundColor3 = isAvailable and THEME.ok or THEME.muted,
+        BackgroundColor3 = THEME.ok,
         BackgroundTransparency = 0.86,
         BorderSizePixel = 0,
     }, card)
@@ -791,7 +763,7 @@ for index, entry in ipairs(CONFIG.scripts) do
         Text = entry.tag or "",
         Font = Enum.Font.GothamBold,
         TextSize = 8,
-        TextColor3 = isAvailable and THEME.ok or THEME.muted,
+        TextColor3 = THEME.ok,
         TextXAlignment = Enum.TextXAlignment.Center,
     })
 
@@ -807,12 +779,10 @@ for index, entry in ipairs(CONFIG.scripts) do
     local runButton = make("TextButton", {
         Size = UDim2.fromOffset(96, 36),
         Position = UDim2.new(1, -112, 0.5, -18),
-        BackgroundColor3 = isAvailable and Color3.new(1, 1, 1) or THEME.panel,
+        BackgroundColor3 = Color3.new(1, 1, 1),
         Text = "",
         AutoButtonColor = false,
         BorderSizePixel = 0,
-        Active = isAvailable,
-        Selectable = isAvailable,
         ZIndex = 5,
     }, card)
     corner(runButton, 10)
@@ -821,87 +791,73 @@ for index, entry in ipairs(CONFIG.scripts) do
     local runLabel = label(runButton, {
         Name = "ButtonCaption",
         Size = UDim2.fromScale(1, 1),
-        Text = isAvailable and "RUN" or "SOON",
+        Text = "RUN",
         Font = Enum.Font.GothamBold,
         TextSize = 13,
-        TextColor3 = isAvailable and Color3.new(1, 1, 1) or THEME.muted,
+        TextColor3 = Color3.new(1, 1, 1),
         TextXAlignment = Enum.TextXAlignment.Center,
         TextStrokeColor3 = Color3.fromRGB(30, 24, 61),
-        TextStrokeTransparency = isAvailable and 0.45 or 1,
+        TextStrokeTransparency = 0.45,
         ZIndex = 6,
     })
 
-    local buttonStroke
-    if isAvailable then
-        gradient(runButton, THEME.accentA, THEME.accentB, 0)
-        buttonStroke = stroke(runButton, THEME.accentC, 1, 0.7)
-    else
-        stroke(runButton, THEME.stroke, 1, 0.3)
-    end
+    gradient(runButton, THEME.accentA, THEME.accentB, 0)
+    local buttonStroke = stroke(runButton, THEME.accentC, 1, 0.7)
 
     card.MouseEnter:Connect(function()
         tween(card, { BackgroundColor3 = THEME.cardHover })
-        tween(cardStroke, {
-            Color = isAvailable and THEME.accentA or THEME.stroke,
-            Transparency = isAvailable and 0 or 0.1,
-        })
+        tween(cardStroke, { Color = THEME.accentA, Transparency = 0 })
     end)
     card.MouseLeave:Connect(function()
         tween(card, { BackgroundColor3 = THEME.card })
         tween(cardStroke, { Color = THEME.stroke, Transparency = 0.1 })
     end)
 
-    if isAvailable then
-        runButton.MouseEnter:Connect(function()
-            tween(buttonStroke, { Transparency = 0.1 })
-            tween(buttonScale, { Scale = 1.04 }, 0.12)
-        end)
-        runButton.MouseLeave:Connect(function()
-            tween(buttonStroke, { Transparency = 0.7 })
-            tween(buttonScale, { Scale = 1 }, 0.12)
-        end)
-        runButton.MouseButton1Down:Connect(function()
-            tween(buttonScale, { Scale = 0.95 }, 0.08)
-        end)
-        runButton.MouseButton1Up:Connect(function()
-            tween(buttonScale, { Scale = 1.04 }, 0.1)
-        end)
+    runButton.MouseEnter:Connect(function()
+        tween(buttonStroke, { Transparency = 0.1 })
+        tween(buttonScale, { Scale = 1.04 }, 0.12)
+    end)
+    runButton.MouseLeave:Connect(function()
+        tween(buttonStroke, { Transparency = 0.7 })
+        tween(buttonScale, { Scale = 1 }, 0.12)
+    end)
+    runButton.MouseButton1Down:Connect(function()
+        tween(buttonScale, { Scale = 0.95 }, 0.08)
+    end)
+    runButton.MouseButton1Up:Connect(function()
+        tween(buttonScale, { Scale = 1.04 }, 0.1)
+    end)
 
-        local busy = false
-        runButton.MouseButton1Click:Connect(function()
-            if busy then
+    local busy = false
+    runButton.MouseButton1Click:Connect(function()
+        if busy then
+            return
+        end
+        busy = true
+        runLabel.Text = "LOADING"
+        runLabel.TextSize = 11
+        progress.Size = UDim2.new(0, 0, 0, 2)
+        tween(progress, { Size = UDim2.new(0.85, 0, 0, 2) }, 1.4)
+
+        task.spawn(function()
+            local success = runScript(entry, setStatus)
+            if success then
+                tween(progress, { Size = UDim2.new(1, 0, 0, 2) }, 0.15)
+                runLabel.Text = "DONE"
+                runLabel.TextSize = 13
+                task.wait(0.6)
+                closeUI()
                 return
             end
-            busy = true
-            runLabel.Text = "LOADING"
-            runLabel.TextSize = 11
+            tween(cardStroke, { Color = THEME.err, Transparency = 0 }, 0.15)
             progress.Size = UDim2.new(0, 0, 0, 2)
-            tween(progress, { Size = UDim2.new(0.85, 0, 0, 2) }, 1.4)
-
-            task.spawn(function()
-                local success = runScript(entry, setStatus)
-                if success then
-                    tween(progress, { Size = UDim2.new(1, 0, 0, 2) }, 0.15)
-                    runLabel.Text = "DONE"
-                    runLabel.TextSize = 13
-                    task.wait(0.6)
-                    closeUI()
-                    return
-                end
-                tween(cardStroke, { Color = THEME.err, Transparency = 0 }, 0.15)
-                progress.Size = UDim2.new(0, 0, 0, 2)
-                runLabel.Text = "RUN"
-                runLabel.TextSize = 13
-                task.wait(0.9)
-                tween(cardStroke, { Color = THEME.stroke, Transparency = 0.1 }, 0.3)
-                busy = false
-            end)
+            runLabel.Text = "RUN"
+            runLabel.TextSize = 13
+            task.wait(0.9)
+            tween(cardStroke, { Color = THEME.stroke, Transparency = 0.1 }, 0.3)
+            busy = false
         end)
-    else
-        runButton.MouseButton1Click:Connect(function()
-            setStatus("This script is coming soon", "idle")
-        end)
-    end
+    end)
 
     cards[#cards + 1] = { frame = card, name = string.lower(entry.name) }
 end
