@@ -658,13 +658,17 @@ minimizeButton.MouseButton1Click:Connect(function()
     tween(root, { Size = collapsed and UDim2.fromOffset(W, HEADER) or UDim2.fromOffset(W, H) }, 0.28)
 end)
 
-track(UserInputService.InputBegan:Connect(function(input, processed)
-    if processed then
+-- toggle: don't rely on `processed` (it's true whenever Roblox's chat/other UI
+-- grabs the key); just skip while a TextBox is focused, so typing shift in search
+-- doesn't flip the window.
+track(UserInputService.InputBegan:Connect(function(input)
+    if input.KeyCode ~= CONFIG.toggleKey then
         return
     end
-    if input.KeyCode == CONFIG.toggleKey then
-        root.Visible = not root.Visible
+    if UserInputService:GetFocusedTextBox() then
+        return
     end
+    root.Visible = not root.Visible
 end))
 
 -- script cards ----------------------------------------------------------
