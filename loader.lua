@@ -26,10 +26,10 @@ local CONFIG = {
             tag = "FREE",
         },
         {
-            name = "Coming soon",
-            desc = "A new script is on the way",
-            tag = "SOON",
-            available = false,
+            name = "fly, noclip etc.",
+            cmd = "loadstring(game:HttpGet('https://raw.githubusercontent.com/djvort735-ux/Private-Script/main/fly_speed-hack_etc."
+            desc = "meme script",
+            tag = "FREE",
         },
     },
 }
